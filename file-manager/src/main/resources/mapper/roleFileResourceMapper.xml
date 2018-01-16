@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boom.dao.FileResourceMapper" >
+    <resultMap id="BaseResultMap" type="com.boom.domain.RoleFileResource" >
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="origin_name" property="originName" />
+        <result column="new_name" property="newName"/>
+        <result column="extension" property="extension" />
+        <result column="type" property="type" />
+        <result column="size" property="size" />
+        <result column="save_path" property="savePath" />
+        <result column="upload_date" property="uploadDate" />
+        <result column="modify_date" property="modifyDate" />
+    </resultMap>
+
+    <sql id="base_sql_list">
+        id,role_id,origin_name,new_name,extension,type,size,save_path,upload_date,modify_date
+    </sql>
+    <sql id="sql_list_with_no_date">
+        id,role_id,origin_name,new_name,extension,type,size,save_path
+    </sql>
+
+
+    <select id="queryByRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_list"/>
+        FROM
+        file
+        WHERE
+        role_id = #{roleId}
+    </select>
+
+    <update id="updateSelective">
+        UPDATE file
+        <set>
+            <if test="companyId != null">
+                role_id = #{roleId},
+            </if>
+            <if test="originName != null">
+                origin_name = #{originName},
+            </if>
+            <if test="newName != null">
+                new_name = #{newName},
+            </if>
+            <if test="extension != null">
+                extension = #{extension},
+            </if>
+            <if test="type != type">
+                type = #{type},
+            </if>
+            <if test="size != size">
+                size = #{size},
+            </if>
+            <if test="savePath != null">
+                save_path = #{savePath},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boom.dao.RolePermissionMapper" >
+
+    
+    <select id="queryPermissionOfRole" resultType="java.lang.Integer">
+        SELECT 
+            permission_id
+        FROM
+            role_permission
+        WHERE
+            role_id = #{roleId}
+    </select>
+
+    <select id="queryPermissionOfRoles" resultType="java.lang.Integer">
+        SELECT
+          permission_id
+        FROM
+          role_permission
+        WHERE
+          role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <insert id="correlation" >
+        INSERT INTO role_permission(role_id, permission_id)
+                VALUES (#{roleId},#{permissionId})
+    </insert>
+
+    <insert id="correlations" >
+        INSERT INTO role_permission(role_id, permission_id)
+        VALUES 
+            <foreach collection="permissionIds" item="permissionId" open="(" separator="," close=")">
+                #{roleId},#{permissionId}
+            </foreach>
+    </insert>
+
+    <delete id="uncorrelation">
+        DELETE FROM role_permission
+        WHERE
+          role_id = #{roleId} AND permission_id = #{permissionId}
+    </delete>
+
+    <delete id="uncorrelations">
+        DELETE FROM role_permission
+        WHERE
+        role_id = #{roleId} AND permission_id IN
+        <foreach collection="permissionIds" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </delete>
+
+    <delete id="uncorrelationRoles">
+        DELETE FROM role_permission
+        WHERE
+          role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        AND
+          permission_id IN
+        <foreach collection="permissionIds" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </delete>
+
+    <delete id="uncorrelationAllPermissionOfRole">
+        DELETE FROM role_permission WHERE role_id = #{roleId}
+    </delete>
+
+    <delete id="uncorrelationAllPermissionOfRoles">
+        DELETE FROM role_permission WHERE role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+    
+</mapper>

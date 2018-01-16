@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boom.dao.RoleMapper" >
+    
+    <resultMap id="baseResultMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="available" property="available"/>
+        <result column="create_date" property="createDate"/>
+        <result column="modify_date" property="modifyDate"/>
+    </resultMap>
+    
+    <sql id="base_sql_list">
+        id,name,description,available,create_date,modify_date
+    </sql>
+    
+    <select id="queryAll" resultMap="baseResultMap">
+        SELECT 
+            <include refid="base_sql_list"/>
+        FROM
+            role
+    </select>
+
+    <select id="queryLikeName" resultMap="baseResultMap">
+        SELECT
+            <include refid="base_sql_list"/>
+        FROM
+            role
+        WHERE
+            name LIKE concat('%',#{name},'%')
+    </select>
+    
+    <update id="updateSelective">
+        UPDATE
+          role
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="available != null">available = #{available},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="modifyDate != null">modify_date = #{modifyDate},</if>
+        </set>
+        WHERE
+          id = #{id}
+    </update>
+    
+</mapper>

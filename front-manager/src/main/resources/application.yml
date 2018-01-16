@@ -1,0 +1,64 @@
+#app server settings
+server:
+  port: 9000
+  context-path: /central
+
+spring:
+
+#  devtools:
+#    restart:
+#      enabled: true
+
+  datasource:
+    name: repositpry
+    url: jdbc:mysql://localhost:3306/repository?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: summer
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+redis:
+    database: 0
+    hotst: localhost
+    password: summer
+    port: 6379
+    pool:
+      max-active: 8
+      max-idle: 8
+      max-wait: -1
+      min-idle: 0
+    timeout: 0
+    sentinel:
+      master: #main node name
+      nodes:  #all nodes' name separated by comma,host:port
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.boom.domain
+  global-config:
+      #刷新mapper 调试神器
+      refresh-mapper: true
+      #驼峰下划线转换
+      db-column-underline: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+logging:
+  level: warn

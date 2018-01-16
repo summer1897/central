@@ -1,0 +1,71 @@
+package com.boom.manager.impl;
+
+import com.boom.manager.IRoleManager;
+import com.boom.service.IRolePermissionService;
+import com.boom.service.IRoleService;
+import com.summer.base.utils.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
+
+/**
+ * Created by Intellij IDEA
+ *
+ * @Author summer
+ * @Date 2018/1/14 下午4:55
+ * @Description
+ */
+@Transactional
+@Component
+public class RoleManagerImpl implements IRoleManager {
+
+    private static final Logger log = LoggerFactory.getLogger(RoleManagerImpl.class);
+
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    private IRolePermissionService rolePermissionService;
+
+
+    @Override
+    public boolean authorize(Integer roleId, Set<Integer> permissionIds) {
+        log.info("Manager layer=============>RoleManagerImpl.authorize()");
+
+        boolean isSuccess = false;
+        if (ObjectUtils.isNotNull(roleId) && ObjectUtils.isNotEmpty(permissionIds)) {
+            isSuccess = rolePermissionService.correlation(roleId,permissionIds);
+
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        log.info("Manager layer=============>RoleManagerImpl.delete()");
+
+        boolean isSuccess = false;
+        if (ObjectUtils.isNotNull(id)) {
+            isSuccess = roleService.deleteById(id) &&
+                    rolePermissionService.uncorrelationAllPermissionOfRole(id);
+
+        }
+        return isSuccess;
+    }
+
+    @Override
+    public boolean deleteBatch(Set<Integer> ids) {
+        log.info("Manager layer=============>RoleManagerImpl.deleteBatch()");
+
+        boolean isSuccess = false;
+        if (ObjectUtils.isNotEmpty(ids)) {
+            isSuccess = roleService.deleteBatchIds(ids) &&
+                    rolePermissionService.uncorrelationAllPermissionOfRoles(ids);
+
+        }
+        return isSuccess;
+    }
+}

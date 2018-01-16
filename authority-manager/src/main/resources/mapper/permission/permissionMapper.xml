@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boom.dao.PermissionMapper" >
+    <resultMap id="BaseResultMap" type="Permission" >
+        <id column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="parent_ids" property="parentIds" />
+        <result column="name" property="name" />
+        <result column="icon" property="icon" />
+        <result column="type" property="type" />
+        <result column="url" property="url" />
+        <result column="permission" property="permission" />
+        <result column="available" property="available" />
+        <result column="sort" property="sort" />
+        <result column="create_date" property="createDate" />
+        <result column="modify_date" property="modifyDate" />
+    </resultMap>
+    <sql id="base_sql_list">
+        id,name,icon,type,url,permission,parent_id,parent_ids,available,sort,create_date,modify_date
+    </sql>
+
+    <sql id="sql_list_with_no_date">
+        id,name,icon,type,url,permission,parent_id,parent_ids,available,sort
+    </sql>
+
+    <select id="queryAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_list"/>
+        FROM
+        permission
+    </select>
+
+    <select id="queryChildren" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_list"/>
+        FROM
+        permission
+        WHERE
+        parent_id = #{permissionId}
+    </select>
+
+    <select id="queryAllChildren" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_list"/>
+        FROM
+        permission
+        WHERE
+        parent_id IN
+        <foreach collection="permissionIds" index="index" item="permissionId" open="(" separator="," close=")">
+            #{permissionId}
+        </foreach>
+    </select>
+
+    <select id="queryLikeName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_list"/>
+        FROM
+        permission
+        WHERE
+        name LIKE concat('%',#{name},'%')
+    </select>
+
+
+    <update id="updateSelective">
+        UPDATE permission
+        <set>
+            <if test="null != name">name = #{name},</if>
+            <if test="null != icon">icon = #{icon},</if>
+            <if test="null != type">type = #{type},</if>
+            <if test="null != url">url = #{url},</if>
+            <if test="null != permission">permission = #{permission},</if>
+            <if test="null != parentId">parent_id = #{parentId},</if>
+            <if test="null != parentIds">parent_ids = #{parentIds},</if>
+            <if test="null != sort">sort = #{sort},</if>
+            <if test="null != createDate">create_date = #{createDate},</if>
+            <if test="null != modifyDate">modify_date = #{modifyDate},</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+</mapper>
