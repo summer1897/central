@@ -18,9 +18,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @Date 2018/1/14 下午2:37
  * @Description Swagger配置
  */
-//@Configuration
+@Configuration
 @EnableSwagger2
-@EnableWebMvc
+//@EnableWebMvc
 public class SwaggerConfig {
 
     @Bean
