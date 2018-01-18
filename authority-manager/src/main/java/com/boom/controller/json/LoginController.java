@@ -1,4 +1,4 @@
-package com.boom.json;
+package com.boom.controller.json;
 
 
 import com.boom.service.IUserService;

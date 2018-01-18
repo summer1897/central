@@ -1,4 +1,4 @@
-package com.boom.json;
+package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 import com.boom.domain.Role;
@@ -7,7 +7,6 @@ import com.boom.service.IRoleService;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
 import com.summer.base.utils.ObjectUtils;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

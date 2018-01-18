@@ -1,4 +1,4 @@
-package com.boom.json;
+package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 import com.boom.domain.RoleFileResource;

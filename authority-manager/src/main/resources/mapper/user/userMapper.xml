@@ -27,7 +27,16 @@
         FROM
           user
         WHERE
-          user_name = #{name}
+          user_name = #{userName}
+    </select>
+
+    <select id="queryLikeUserName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_sql_lists"/>
+        FROM
+        user
+        WHERE
+        user_name LIKE concat('%',#{userName},'%')
     </select>
 
     <select id="queryAll" resultMap="BaseResultMap">

@@ -1,4 +1,4 @@
-package com.boom.json;
+package com.boom.controller.json;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

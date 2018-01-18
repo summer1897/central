@@ -1,5 +1,6 @@
 package com.boom.realm;
 
+import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
 import com.boom.manager.IUserManager;
 import com.boom.service.IUserService;
