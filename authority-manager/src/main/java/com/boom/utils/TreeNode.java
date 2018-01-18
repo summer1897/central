@@ -53,7 +53,7 @@ public class TreeNode {
         if (ObjectUtils.isNotEmpty(nodeMap)) {
             for (Integer nodeId : nodeMap.keySet()) {
                 Node node = nodeMap.get(nodeId);
-                Integer parentId = ObjectUtils.isNotNull(node) ? node.getParentId() : null;
+                Long parentId = ObjectUtils.isNotNull(node) ? node.getParentId() : null;
                 if (ObjectUtils.isNull(parentId) || 0 == parentId) {
                     root.addChild(node);
                 } else {

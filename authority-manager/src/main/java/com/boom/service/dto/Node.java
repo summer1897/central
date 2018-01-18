@@ -16,7 +16,7 @@ import java.util.List;
 public class Node extends BaseDomain implements Serializable {
     private static final long serialVersionUID = -7178131082566313665L;
 
-    private Integer parentId;
+    private Long parentId;
     private String parentIds;
     private String name;
     private String icon;
@@ -28,11 +28,11 @@ public class Node extends BaseDomain implements Serializable {
 
     private List<Node> children = Lists.newArrayList();
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

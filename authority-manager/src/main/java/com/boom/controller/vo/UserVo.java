@@ -19,7 +19,7 @@ public class UserVo implements Serializable {
 
     private static final long serialVersionUID = -802200734086104020L;
 
-    private Integer id;
+    private Long id;
     private String userName;
     private String nickName;
     private Byte sex;
@@ -33,11 +33,11 @@ public class UserVo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -19,7 +19,7 @@ import java.util.Date;
 public class BaseDomain<T extends Model> extends Model<T> {
 
     @TableId
-    private Integer id;
+    private Long id;
     /**创建时间*/
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -29,11 +29,11 @@ public class BaseDomain<T extends Model> extends Model<T> {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
