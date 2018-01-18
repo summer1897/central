@@ -1,7 +1,8 @@
-package com.boom.json;
+package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 
+import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
 import com.boom.manager.IUserManager;
 import com.boom.service.IUserService;
@@ -10,6 +11,7 @@ import com.boom.utils.EncryptionUtils;
 import com.boom.utils.RandomIdGenerator;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
+import com.summer.base.utils.BeanCloneUtils;
 import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +32,24 @@ public class UserController {
     @Autowired
     private IUserManager userManager;
 
+    @GetMapping("/query.json/{name}")
+    public ResultVo list(@PathVariable("name") String name) {
+        log.info("query user info by name===>UserController.list()");
+
+        User user =  userService.queryByName(name);
+        if (ObjectUtils.isNotNull(user)) {
+            ResultVo.success(BeanCloneUtils.clone(user,User.class,UserVo.class));
+        }
+        return ResultVo.fail("没有找到改用户信息");
+    }
+
     @GetMapping(value = "/lists.json")
     public ResultVo lists() {
         log.info("method:GET ===> request path:/user/list===>UserController.list()");
 
         List<User> users = userService.queryAll();
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(users);
+            return ResultVo.success(BeanCloneUtils.clone(users,User.class,UserVo.class));
         }
         return ResultVo.fail("没有查到用户信息");
     }
@@ -47,12 +60,33 @@ public class UserController {
 
         List<User> users = userService.queryAllByPagination(pageNum,pageSize);
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(new PageInfo<User>(users));
+            return ResultVo.success(new PageInfo<>(BeanCloneUtils.clone(users,User.class,UserVo.class)));
         }
         return ResultVo.fail("没有查到用户信息");
     }
 
-    @ApiIgnore
+    @GetMapping("/query_by_username.json/{userName}")
+    public ResultVo getByUserName(@PathVariable String userName) {
+        log.info("Controller layer:根据用户名查询用户信息===>UserController.getByUserName({})",userName);
+
+        User user = userService.queryByName(userName);
+        if (ObjectUtils.isNotNull(user)) {
+            return ResultVo.success(BeanCloneUtils.clone(user,User.class,UserVo.class));
+        }
+        return ResultVo.fail("没有查到用户信息");
+    }
+
+    @GetMapping("/query_like_username.json/{userName}")
+    public ResultVo getLikeUserName(@PathVariable String userName) {
+        log.info("Controller layer:根据用户名模糊查询用户信息===>UserController.getLikeUserName({})",userName);
+
+        List<User> users = userService.queryLikeUserName(userName);
+        if (ObjectUtils.isNotEmpty(users)) {
+            return ResultVo.success(BeanCloneUtils.clone(users,User.class,UserVo.class));
+        }
+        return ResultVo.fail("没有查到用户信息");
+    }
+
     @GetMapping(value = "/menus.json")
     public ResultVo getUserMenu() {
         log.info("method:GET===>/user/list===>UserController.getMenu()");
@@ -62,17 +96,6 @@ public class UserController {
             return ResultVo.success(menus);
         }
         return ResultVo.fail("没有查到用户菜单信息");
-    }
-
-    @GetMapping("/query.json/{name}")
-    public ResultVo list(@PathVariable("name") String name) {
-        log.info("query user info by name===>UserController.list()");
-
-        User user =  userService.queryByName(name);
-        if (ObjectUtils.isNotNull(user)) {
-            ResultVo.success(user);
-        }
-        return ResultVo.fail("没有找到改用户信息");
     }
 
     @PostMapping("/add.json")

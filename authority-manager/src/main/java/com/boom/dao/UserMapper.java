@@ -3,6 +3,7 @@ package com.boom.dao;
 import com.SuperMapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.boom.domain.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,19 +19,18 @@ import java.util.List;
 public interface UserMapper extends SuperMapper<User> {
 
     /**
-     * 根据用户名才找用户
+     * 根据用户名模糊查询
      * @param userName
-     * @return @{com.boom.rbac.domain.User},否则，返回null
+     * @return {@link User}
      */
-    User queryByName(String userName);
+    List<User> queryLikeUserName(@Param("userName") String userName);
 
     /**
-     * 根据用户名和密码查询用户
+     * 根据用户名才找用户
      * @param userName
-     * @param password
-     * @return @{com.boom.rbac.domain.User},否则返回null
+     * @return @{com.boom.domain.User},否则，返回null
      */
-    User queryUser(String userName, String password);
+    User queryByName(@Param("userName") String userName);
 
     /**
      * 查询所有用户

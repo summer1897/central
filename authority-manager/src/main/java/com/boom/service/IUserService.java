@@ -3,6 +3,7 @@ package com.boom.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.boom.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,6 +15,13 @@ import java.util.List;
  * @Description 用户操作接口
  */
 public interface IUserService extends IService<User> {
+
+    /**
+     * 根据用户名模糊查询
+     * @param userName
+     * @return {@link User}
+     */
+    List<User> queryLikeUserName(@Param("userName") String userName);
 
     /**
      * 根据用户名才找用户
