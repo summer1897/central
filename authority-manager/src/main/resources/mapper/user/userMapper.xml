@@ -20,6 +20,10 @@
     <sql id="base_sql_lists">
         id,user_name,nick_name,sex,phone,email,password,salt,locked,birthday,create_date,modify_date
     </sql>
+    
+    <select id="queryTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user;
+    </select>
 
     <select id="queryByName" resultMap="BaseResultMap">
         SELECT

@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 2017/12/7 下午9:40
  * @Description 权限实体类
  */
-public class Permission extends BaseDomain<Permission> implements Serializable {
+public class Permission extends BaseDomain implements Serializable {
 
     private static final long serialVersionUID = -7191015071775255718L;
 

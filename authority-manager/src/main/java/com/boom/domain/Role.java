@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Created by yangyang on 2017/12/7.
  */
-public class Role extends BaseDomain<Role> implements Serializable {
+public class Role extends BaseDomain implements Serializable {
     private static final long serialVersionUID = 565651037360395463L;
 
     /**角色名*/

@@ -1,8 +1,5 @@
 package com.boom.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,9 +13,9 @@ import java.util.Date;
  * @Date 2018/1/13 下午1:10
  * @Description 基础实体类，封装常见属性
  */
-public class BaseDomain<T extends Model> extends Model<T> {
+public class BaseDomain implements Serializable {
 
-    @TableId
+    private static final long serialVersionUID = -6429411597618356470L;
     private Long id;
     /**创建时间*/
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -56,10 +53,5 @@ public class BaseDomain<T extends Model> extends Model<T> {
     public void setAllDate(Date date) {
         this.createDate = date;
         this.modifyDate = date;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
     }
 }

@@ -2,6 +2,8 @@ package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
 import com.boom.manager.IUserManager;
@@ -11,13 +13,13 @@ import com.boom.utils.EncryptionUtils;
 import com.boom.utils.RandomIdGenerator;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.summer.base.utils.BeanCloneUtils;
 import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Set;
@@ -31,6 +33,17 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IUserManager userManager;
+
+    @GetMapping("/total.json")
+    public ResultVo queryTotal() {
+        log.info("Controller layer:用户总数统计===>UserController.queryTotal()");
+
+        Integer total = userService.queryTotal();
+        if (ObjectUtils.isNotNull(total)) {
+            ResultVo.success(Maps.newHashMap().put("total",total));
+        }
+        return ResultVo.fail("暂无用户信息");
+    }
 
     @GetMapping("/query.json/{name}")
     public ResultVo list(@PathVariable("name") String name) {
@@ -49,14 +62,15 @@ public class UserController {
 
         List<User> users = userService.queryAll();
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(BeanCloneUtils.clone(users,User.class,UserVo.class));
+//            log.warn("uservo infos:{}",JSON.toJSONString(BeanCloneUtils.deepClone(users,User.class,UserVo.class),true));
+            return ResultVo.success(BeanCloneUtils.deepClone(users,User.class,UserVo.class));
         }
         return ResultVo.fail("没有查到用户信息");
     }
 
     @GetMapping(value = "/lists_by_pagination.json/{pageNum}/{pageSize}")
     public ResultVo lists(@PathVariable Integer pageNum,@PathVariable Integer pageSize) {
-        log.info("method:GET ===> request path:/user/list===>UserController.list()");
+        log.info("method:GET ===> request path:/user/list===>UserController.list({},{})",pageNum,pageSize);
 
         List<User> users = userService.queryAllByPagination(pageNum,pageSize);
         if (ObjectUtils.isNotEmpty(users)) {
@@ -112,7 +126,7 @@ public class UserController {
     }
 
     @GetMapping("/delete.json/{id}")
-    public ResultVo delete(@PathVariable Integer id) {
+    public ResultVo delete(@PathVariable Long id) {
         log.info("Controller layer:删除用户===============>UserController.delete({})",id);
 
         boolean success = userService.deleteById(id);
@@ -123,8 +137,8 @@ public class UserController {
     }
 
     @GetMapping("/delete_batch.json/{ids}")
-    public ResultVo deleteBatch(@PathVariable Set<Integer> ids) {
-        log.info("Controller layer:批量删除用户===============>UserController.delte({})",ids);
+    public ResultVo deleteBatch(@PathVariable Set<Long> ids) {
+        log.info("Controller layer:批量删除用户===============>UserController.deleteBatch({})",ids);
 
         boolean success = userService.deleteBatchIds(ids);
         if (success) {

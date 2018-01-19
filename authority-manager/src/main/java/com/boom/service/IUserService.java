@@ -17,6 +17,12 @@ import java.util.List;
 public interface IUserService extends IService<User> {
 
     /**
+     *
+     * @return {@link Integer}
+     */
+    Integer queryTotal();
+
+    /**
      * 根据用户名模糊查询
      * @param userName
      * @return {@link User}

@@ -1,18 +1,15 @@
 package com.boom.domain;
 
-import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by summer on 2017/12/7.
  */
-@TableName("user")
-public class User extends BaseDomain<User> implements Serializable {
+public class User extends BaseDomain implements Serializable {
 
     private static final long serialVersionUID = 5811977737256559537L;
 
@@ -51,8 +48,8 @@ public class User extends BaseDomain<User> implements Serializable {
     /**
      * 出生日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date birthday;
 
     public String getUserName() {

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @Time 下午8:05
  * @Description 文件资源实体类
  */
-public class FileResource extends BaseDomain<FileResource> implements Serializable {
+public class FileResource extends BaseDomain implements Serializable {
     private static final long serialVersionUID = -4048505407902232240L;
 
     /**文件原名称*/

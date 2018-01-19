@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Date 2017/12/7 下午10:14
  * @Description 角色权限关系实体对象
  */
-public class RolePermission extends BaseDomain<RolePermission> implements Serializable {
+public class RolePermission extends BaseDomain implements Serializable {
 
     private static final long serialVersionUID = -8159790746838918L;
 

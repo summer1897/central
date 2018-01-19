@@ -34,6 +34,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
     private UserMapper userMapper;
 
     @Override
+    public Integer queryTotal() {
+        log.info("Service layer========================>UserServiceImpl.queryTotal()");
+        return userMapper.queryTotal();
+    }
+
+    @Override
     public List<User> queryLikeUserName(String userName) {
         log.info("Service layer========================>UserServiceImpl.queryLikeUserName()");
 
