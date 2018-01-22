@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by summer on 2017/12/7.
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ShiroConfig.class);
