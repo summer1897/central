@@ -32,7 +32,7 @@ public class Principal implements Serializable {
     public static final byte STATUS_NO_LOCKED = 0;
 
 
-    private Integer id;
+    private Long id;
     private String userName;
     private String nickName;
     private Byte sex;
@@ -49,11 +49,11 @@ public class Principal implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

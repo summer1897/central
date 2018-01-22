@@ -30,10 +30,10 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     private RolePermissionMapper rolePermissionMapper;
 
     @Override
-    public List<Integer> queryPermissionOfRole(Integer roleId) {
+    public List<Long> queryPermissionOfRole(Long roleId) {
         log.info("Service layer============>RolePermissionServiceImpl.queryPermissionId()");
 
-        List<Integer> permissionIds = Lists.newArrayList();
+        List<Long> permissionIds = Lists.newArrayList();
         if (ObjectUtils.isNotNull(roleId)) {
             permissionIds = rolePermissionMapper.queryPermissionOfRole(roleId);
         }
@@ -41,10 +41,10 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public List<Integer> queryPermissionOfRoles(Set<Integer> roleIds) {
+    public List<Long> queryPermissionOfRoles(Set<Long> roleIds) {
         log.info("Service layer============>RolePermissionServiceImpl.queryPermissionId()");
 
-        List<Integer> permissionIds = Lists.newArrayList();
+        List<Long> permissionIds = Lists.newArrayList();
         if (ObjectUtils.isNotEmpty(roleIds)) {
             permissionIds = rolePermissionMapper.queryPermissionOfRoles(roleIds);
         }
@@ -52,7 +52,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean correlation(Integer roleId, Integer permissionId) {
+    public boolean correlation(Long roleId, Long permissionId) {
         log.info("Service layer============>RolePermissionServiceImpl.correlation()");
 
         boolean isSuccess = false;
@@ -63,7 +63,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean correlation(Integer roleId, Set<Integer> permissionIds) {
+    public boolean correlation(Long roleId, Set<Long> permissionIds) {
         log.info("Service layer============>RolePermissionServiceImpl.correlation()");
 
         boolean isSuccess = false;
@@ -74,7 +74,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean uncorrelation(Integer roleId, Integer permissionId) {
+    public boolean uncorrelation(Long roleId, Long permissionId) {
         log.info("Service layer============>RolePermissionServiceImpl.uncorrelation()");
 
         boolean isSuccess = false;
@@ -85,7 +85,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean uncorrelation(Integer roleId, Set<Integer> permissionIds) {
+    public boolean uncorrelation(Long roleId, Set<Long> permissionIds) {
         log.info("Service layer============>RolePermissionServiceImpl.uncorrelation()");
 
         boolean isSuccess = false;
@@ -96,7 +96,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean uncorrelation(Set<Integer> roleIds, Set<Integer> permissionIds) {
+    public boolean uncorrelation(Set<Long> roleIds, Set<Long> permissionIds) {
         log.info("Service layer============>RolePermissionServiceImpl.uncorrelation()");
 
         boolean isSuccess = false;
@@ -107,7 +107,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean uncorrelationAllPermissionOfRole(Integer roleId) {
+    public boolean uncorrelationAllPermissionOfRole(Long roleId) {
         log.info("Service layer============>RolePermissionServiceImpl.uncorrelationAllPermissionOfRole()");
 
         boolean isSuccess = false;
@@ -118,7 +118,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public boolean uncorrelationAllPermissionOfRoles(Set<Integer> roleIds) {
+    public boolean uncorrelationAllPermissionOfRoles(Set<Long> roleIds) {
         log.info("Service layer============>RolePermissionServiceImpl.uncorrelationAllPermissionOfRoles()");
 
         boolean isSuccess = false;

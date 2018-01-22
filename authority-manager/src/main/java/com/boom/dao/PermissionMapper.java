@@ -29,14 +29,14 @@ public interface PermissionMapper extends SuperMapper<Permission> {
      * @param permissionId
      * @return List<Permission>
      */
-    List<Permission> queryChildren(Integer permissionId);
+    List<Permission> queryChildren(Long permissionId);
 
     /**
      * 根据多个权限ID查询其对应的所有子权限
      * @param permissionIds
      * @return
      */
-    List<Permission> queryAllChildren(Set<Integer> permissionIds);
+    List<Permission> queryAllChildren(Set<Long> permissionIds);
 
     /**
      * 根据权限名称模糊查询权限

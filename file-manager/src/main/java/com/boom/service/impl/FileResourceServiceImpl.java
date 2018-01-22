@@ -49,7 +49,7 @@ public class FileResourceServiceImpl extends ServiceImpl<FileResourceMapper,Role
     }
 
     @Override
-    public List<RoleFileResource> queryByRoleId(String roleId) {
+    public List<RoleFileResource> queryByRoleId(Long roleId) {
         logger.info("Service layer:查询某公司拥有的文件资源信息==========>FileResourceServiceImpl.queryByCompanyId()");
 
         List<RoleFileResource> RoleFileResources = Lists.newArrayList();

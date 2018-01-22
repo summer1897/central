@@ -21,16 +21,16 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
     /**
      * 查询角色对应的所有权限ID
      * @param roleId
-     * @return {@link List<Integer>}
+     * @return {@link List<Long>}
      */
-    List<Integer> queryPermissionOfRole(@Param("roleId") Integer roleId);
+    List<Long> queryPermissionOfRole(@Param("roleId") Long roleId);
 
     /**
      * 查询多个角色对应的所有权限ID
      * @param roleIds
-     * @return {@link List<Integer>}
+     * @return {@link List<Long>}
      */
-    List<Integer> queryPermissionOfRoles(@Param("roleIds") Set<Integer> roleIds);
+    List<Long> queryPermissionOfRoles(@Param("roleIds") Set<Long> roleIds);
 
     /**
      * 为角色添加一个权限管理
@@ -38,8 +38,8 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param permissionId
      * @return {@link Integer}
      */
-    Integer correlation(@Param("roleId") Integer roleId,
-                        @Param("permissionId") Integer permissionId);
+    Integer correlation(@Param("roleId") Long roleId,
+                        @Param("permissionId") Long permissionId);
 
     /**
      * 为角色添加一组权限
@@ -47,8 +47,8 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param permissionIds
      * @return {@link Integer}
      */
-    Integer correlations(@Param("roleId") Integer roleId,
-                         @Param("permissionIds") Set<Integer> permissionIds);
+    Integer correlations(@Param("roleId") Long roleId,
+                         @Param("permissionIds") Set<Long> permissionIds);
 
     /**
      * 删除角色权限
@@ -56,8 +56,8 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param permissionId
      * @return {@link Integer}
      */
-    Integer uncorrelation(@Param("roleId") Integer roleId,
-                          @Param("permissionId") Integer permissionId);
+    Integer uncorrelation(@Param("roleId") Long roleId,
+                          @Param("permissionId") Long permissionId);
 
     /**
      * 删除角色多组权限
@@ -65,8 +65,8 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param permissionIds
      * @return {@link Integer}
      */
-    Integer uncorrelations(@Param("roleId") Integer roleId,
-                           @Param("permissionIds") Set<Integer> permissionIds);
+    Integer uncorrelations(@Param("roleId") Long roleId,
+                           @Param("permissionIds") Set<Long> permissionIds);
 
     /**
      * 删除多个角色及其对应的权限
@@ -74,21 +74,21 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param permissionIds
      * @return {@link Integer}
      */
-    Integer uncorrelationRoles(@Param("roleIds") Set<Integer> roleIds,
-                               @Param("permissionIds") Set<Integer> permissionIds);
+    Integer uncorrelationRoles(@Param("roleIds") Set<Long> roleIds,
+                               @Param("permissionIds") Set<Long> permissionIds);
 
     /**
      * 删除角色的所有权限
      * @param roleId
      * @return {@link Integer}
      */
-    Integer uncorrelationAllPermissionOfRole(@Param("roleId") Integer roleId);
+    Integer uncorrelationAllPermissionOfRole(@Param("roleId") Long roleId);
 
     /**
      * 删除多个角色的所有权限
      * @param roleIds
      * @return {@link Integer}
      */
-    Integer uncorrelationAllPermissionOfRoles(@Param("roleId") Set<Integer> roleIds);
+    Integer uncorrelationAllPermissionOfRoles(@Param("roleId") Set<Long> roleIds);
 
 }

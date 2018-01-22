@@ -17,17 +17,17 @@ public class RoleFileResource extends SystemFileResource implements Serializable
     private static final long serialVersionUID = 7860365655007751252L;
 
 //    @TableField("role_id")
-    private Integer roleId;
+    private Long roleId;
 
     public RoleFileResource() {
         super();
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 }

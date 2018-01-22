@@ -105,7 +105,7 @@ public class UserController {
     public ResultVo getUserMenu() {
         log.info("method:GET===>/user/list===>UserController.getMenu()");
 
-        List<Node> menus = userManager.queryTreeMenu(1);
+        List<Node> menus = userManager.queryTreeMenu(1l);
         if (ObjectUtils.isNotEmpty(menus)) {
             return ResultVo.success(menus);
         }
@@ -160,7 +160,7 @@ public class UserController {
     }
 
     @GetMapping("/add_roles.json/{roleIds}")
-    public ResultVo addRoles(@PathVariable Set<Integer> roleIds) {
+    public ResultVo addRoles(@PathVariable Set<Long> roleIds) {
         log.info("Controller layer:用户角色添加===============>UserController.addRoles({})",roleIds);
 
         boolean success = userManager.addRoles(null,roleIds);
@@ -171,7 +171,7 @@ public class UserController {
     }
 
     @GetMapping("/add.json")
-    public ResultVo deleteRoles(@PathVariable Set<Integer> roleIds) {
+    public ResultVo deleteRoles(@PathVariable Set<Long> roleIds) {
         log.info("Controller layer:用户角色删除===============>UserController.add({})",roleIds);
 
         boolean success = userManager.deleteRoles(null,roleIds);
@@ -182,7 +182,7 @@ public class UserController {
     }
 
     @GetMapping("/query_user_roles.json/{userId}")
-    public ResultVo getUserRoles(@PathVariable Integer userId) {
+    public ResultVo getUserRoles(@PathVariable Long userId) {
         List<String> roles = userManager.queryUserRoles(userId);
         if (ObjectUtils.isNotEmpty(roles)) {
             return ResultVo.success(roles);
@@ -191,7 +191,7 @@ public class UserController {
     }
 
     @GetMapping("/query_user_permissions.json/{userId}")
-    public ResultVo getUserPermission(@PathVariable Integer userId) {
+    public ResultVo getUserPermission(@PathVariable Long userId) {
         List<String> permissions = userManager.queryUserPermission(userId);
         if (ObjectUtils.isNotEmpty(permissions)) {
             return ResultVo.success(permissions);

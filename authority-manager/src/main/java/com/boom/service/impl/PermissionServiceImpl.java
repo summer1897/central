@@ -49,7 +49,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,Permissi
 
 
     @Override
-    public List<Permission> queryByIdsAndPagination(Set<Integer> permissionIds, Integer pageNum, Integer pageSize) {
+    public List<Permission> queryByIdsAndPagination(Set<Long> permissionIds, Integer pageNum, Integer pageSize) {
         log.info("Service layer:=============>PermissionServiceImpl.queryByIdsAndPagination()");
 
         List<Permission> permissions = Lists.newArrayList();
@@ -62,7 +62,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,Permissi
     }
 
     @Override
-    public List<Permission> queryChildren(Integer permissionId) {
+    public List<Permission> queryChildren(Long permissionId) {
         log.info("Service layer:=============>PermissionServiceImpl.queryChildren()");
 
         List<Permission> permissions = Lists.newArrayList();
@@ -73,7 +73,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,Permissi
     }
 
     @Override
-    public List<Permission> queryChildren(Integer permissionId, Integer pageNum, Integer pageSize) {
+    public List<Permission> queryChildren(Long permissionId, Integer pageNum, Integer pageSize) {
         log.info("Service layer:=============>PermissionServiceImpl.queryChildren()");
 
         List<Permission> permissions = Lists.newArrayList();
@@ -85,7 +85,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,Permissi
     }
 
     @Override
-    public List<Permission> queryAllChildren(Set<Integer> permissionIds) {
+    public List<Permission> queryAllChildren(Set<Long> permissionIds) {
         log.info("Service layer:=============>PermissionServiceImpl.queryAllChildren()");
 
         List<Permission> permissions = Lists.newArrayList();
@@ -96,7 +96,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper,Permissi
     }
 
     @Override
-    public List<Permission> queryAllChildren(Set<Integer> permissionIds, Integer pageNum, Integer pageSize) {
+    public List<Permission> queryAllChildren(Set<Long> permissionIds, Integer pageNum, Integer pageSize) {
         log.info("Service layer:=============>PermissionServiceImpl.queryAllChildren()");
 
         List<Permission> permissions = Lists.newArrayList();

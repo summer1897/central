@@ -91,7 +91,7 @@ public class RoleController {
     }
 
     @GetMapping("/delete.json/{id}")
-    public ResultVo delete(@PathVariable Integer id) {
+    public ResultVo delete(@PathVariable Long id) {
         log.info("Controller layer:删除角色===>RoleController.delete({})", id);
 
         boolean success = roleManager.delete(id);
@@ -102,7 +102,7 @@ public class RoleController {
     }
 
     @GetMapping("/deletes.json/{id}")
-    public ResultVo deleteBatch(@PathVariable Set<Integer> ids) {
+    public ResultVo deleteBatch(@PathVariable Set<Long> ids) {
         log.info("Controller layer:删除角色===>RoleController.deletes({})", ids);
 
         boolean success = roleManager.deleteBatch(ids);
@@ -115,7 +115,7 @@ public class RoleController {
 
 //    @ApiOperation(notes = "授权",value = "为角色授权")
     @GetMapping("/authorize.json/{roleId}/{permissionIds}")
-    public ResultVo authorize(@PathVariable Integer roleId,@PathVariable Set<Integer> permissionIds) {
+    public ResultVo authorize(@PathVariable Long roleId,@PathVariable Set<Long> permissionIds) {
         log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({},{})", roleId,permissionIds);
 
         boolean success = roleManager.authorize(roleId,permissionIds);

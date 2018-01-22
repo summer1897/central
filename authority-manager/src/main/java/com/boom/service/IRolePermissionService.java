@@ -20,16 +20,16 @@ public interface IRolePermissionService extends IService<RolePermission> {
     /**
      * 查询角色对应的所有权限ID
      * @param roleId
-     * @return {@link List<Integer>}
+     * @return {@link List<Long>}
      */
-    List<Integer> queryPermissionOfRole(Integer roleId);
+    List<Long> queryPermissionOfRole(Long roleId);
 
     /**
      * 查询多个角色对应的所有权限ID
      * @param roleIds
-     * @return {@link List<Integer>}
+     * @return {@link List<Long>}
      */
-    List<Integer> queryPermissionOfRoles(Set<Integer> roleIds);
+    List<Long> queryPermissionOfRoles(Set<Long> roleIds);
 
     /**
      * 为角色添加一个权限管理
@@ -37,7 +37,7 @@ public interface IRolePermissionService extends IService<RolePermission> {
      * @param permissionId
      * @return {@link boolean}
      */
-    boolean correlation(Integer roleId, Integer permissionId);
+    boolean correlation(Long roleId, Long permissionId);
 
     /**
      * 为角色添加一组权限
@@ -45,7 +45,7 @@ public interface IRolePermissionService extends IService<RolePermission> {
      * @param permissionIds
      * @return {@link boolean}
      */
-    boolean correlation(Integer roleId, Set<Integer> permissionIds);
+    boolean correlation(Long roleId, Set<Long> permissionIds);
 
     /**
      * 删除角色权限
@@ -53,7 +53,7 @@ public interface IRolePermissionService extends IService<RolePermission> {
      * @param permissionId
      * @return {@link boolean}
      */
-    boolean uncorrelation(Integer roleId, Integer permissionId);
+    boolean uncorrelation(Long roleId, Long permissionId);
 
     /**
      * 删除角色多组权限
@@ -61,7 +61,7 @@ public interface IRolePermissionService extends IService<RolePermission> {
      * @param permissionIds
      * @return {@link boolean}
      */
-    boolean uncorrelation(Integer roleId, Set<Integer> permissionIds);
+    boolean uncorrelation(Long roleId, Set<Long> permissionIds);
 
     /**
      * 删除多个角色及其对应的权限
@@ -69,20 +69,20 @@ public interface IRolePermissionService extends IService<RolePermission> {
      * @param permissionIds
      * @return {@link boolean}
      */
-    boolean uncorrelation(Set<Integer> roleIds, Set<Integer> permissionIds);
+    boolean uncorrelation(Set<Long> roleIds, Set<Long> permissionIds);
 
     /**
      * 删除角色的所有权限
      * @param roleId
-     * @return {@link Integer}
+     * @return {@link Long}
      */
-    boolean uncorrelationAllPermissionOfRole(Integer roleId);
+    boolean uncorrelationAllPermissionOfRole(Long roleId);
 
     /**
      * 删除多个角色的所有权限
      * @param roleIds
-     * @return {@link Integer}
+     * @return {@link Long}
      */
-    boolean uncorrelationAllPermissionOfRoles(Set<Integer> roleIds);
+    boolean uncorrelationAllPermissionOfRoles(Set<Long> roleIds);
 
 }

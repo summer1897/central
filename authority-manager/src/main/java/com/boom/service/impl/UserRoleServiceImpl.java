@@ -31,15 +31,15 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper,UserRole> im
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public List<UserRole> queryRoles(Integer userId) {
+    public List<UserRole> queryRoles(Long userId) {
         return null;
     }
 
     @Override
-    public List<Integer> queryByUserId(Integer userId) {
+    public List<Long> queryByUserId(Long userId) {
         log.info("Service layer========>UserRoleServiceImpl.queryByUserId()");
 
-        List<Integer> roleIds = Lists.newArrayList();
+        List<Long> roleIds = Lists.newArrayList();
         if (ObjectUtils.isNotNull(userId)) {
             roleIds = userRoleMapper.queryByUserId(userId);
         }
@@ -47,7 +47,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper,UserRole> im
     }
 
     @Override
-    public boolean add(Integer userId, Set<Integer> roleIds) {
+    public boolean add(Long userId, Set<Long> roleIds) {
         log.info("Service layer========>UserRoleServiceImpl.add()");
 
         boolean isSuccess = false;
@@ -58,7 +58,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper,UserRole> im
     }
 
     @Override
-    public boolean delete(Integer userId, Set<Integer> roleIds) {
+    public boolean delete(Long userId, Set<Long> roleIds) {
         log.info("Service layer========>UserRoleServiceImpl.delete()");
 
         boolean isSuccess = false;

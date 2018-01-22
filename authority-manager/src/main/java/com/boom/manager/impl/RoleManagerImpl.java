@@ -32,7 +32,7 @@ public class RoleManagerImpl implements IRoleManager {
 
 
     @Override
-    public boolean authorize(Integer roleId, Set<Integer> permissionIds) {
+    public boolean authorize(Long roleId, Set<Long> permissionIds) {
         log.info("Manager layer=============>RoleManagerImpl.authorize()");
 
         boolean isSuccess = false;
@@ -44,7 +44,7 @@ public class RoleManagerImpl implements IRoleManager {
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Long id) {
         log.info("Manager layer=============>RoleManagerImpl.delete()");
 
         boolean isSuccess = false;
@@ -57,7 +57,7 @@ public class RoleManagerImpl implements IRoleManager {
     }
 
     @Override
-    public boolean deleteBatch(Set<Integer> ids) {
+    public boolean deleteBatch(Set<Long> ids) {
         log.info("Manager layer=============>RoleManagerImpl.deleteBatch()");
 
         boolean isSuccess = false;

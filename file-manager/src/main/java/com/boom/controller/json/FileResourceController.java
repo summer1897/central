@@ -43,7 +43,7 @@ public class FileResourceController {
     }
 
     @GetMapping("/lists.json/{roleId}")
-    public ResultVo getByRoleId(@PathVariable String roleId) {
+    public ResultVo getByRoleId(@PathVariable Long roleId) {
         logger.info("Controller layer:查询公司所有文件信息============>FileResourceController.getByRoleId({})",roleId);
 
         List<RoleFileResource> RoleFileResources = fileResourceService.queryByRoleId(roleId);

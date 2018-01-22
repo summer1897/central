@@ -21,9 +21,9 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
     /**
      * 根据用户ID查询所有角色ID
      * @param userId
-     * @return {@link List <Integer>}
+     * @return {@link List <Long>}
      */
-    List<Integer> queryByUserId(@Param("userId") Integer userId);
+    List<Long> queryByUserId(@Param("userId") Long userId);
 
     /**
      *
@@ -31,7 +31,7 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      * @param roleIds
      * @return {@link Integer}
      */
-    Integer add(@Param("userId") Integer userId, @Param("roleIds") Set<Integer> roleIds);
+    Integer add(@Param("userId") Long userId, @Param("roleIds") Set<Long> roleIds);
 
     /**
      *
@@ -39,6 +39,6 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      * @param roleIds
      * @return {@link Integer}
      */
-    Integer delete(@Param("userId") Integer userId, @Param("roleIds") Set<Integer> roleIds);
+    Integer delete(@Param("userId") Long userId, @Param("roleIds") Set<Long> roleIds);
 
 }

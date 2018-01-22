@@ -1,6 +1,5 @@
-package com.boom.realm;
+package com.boom.shiro;
 
-import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
 import com.boom.manager.IUserManager;
 import com.boom.service.IUserService;
@@ -37,7 +36,7 @@ public class RBACShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("权限配置===>RBACShiroRealm.doGetAuthorizationInfo()");
         Principal principal = (Principal) principals.getPrimaryPrincipal();
-        Integer userId = principal.getId();
+        Long userId = principal.getId();
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 

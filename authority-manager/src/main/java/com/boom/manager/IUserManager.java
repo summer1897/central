@@ -19,21 +19,21 @@ public interface IUserManager {
      * @param userId
      * @return {@link List<Node>}
      */
-    List<Node> queryTreeMenu(Integer userId);
+    List<Node> queryTreeMenu(Long userId);
 
     /**
      * 查询用户权限信息
      * @param userId
      * @return {@link List<String>}
      */
-    List<String> queryUserPermission(Integer userId);
+    List<String> queryUserPermission(Long userId);
 
     /**
      * 查询用户拥有的角色信息
      * @param userId
      * @return List<String>
      */
-    List<String> queryUserRoles(Integer userId);
+    List<String> queryUserRoles(Long userId);
 
     /**
      * 用户添加角色
@@ -41,7 +41,7 @@ public interface IUserManager {
      * @param roleIds
      * @return {@link boolean}
      */
-    boolean addRoles(Integer userId, Set<Integer> roleIds);
+    boolean addRoles(Long userId, Set<Long> roleIds);
 
     /**
      * 用户角色删除
@@ -49,6 +49,6 @@ public interface IUserManager {
      * @param roleIds
      * @return {@link boolean}
      */
-    boolean deleteRoles(Integer userId, Set<Integer> roleIds);
+    boolean deleteRoles(Long userId, Set<Long> roleIds);
 
 }

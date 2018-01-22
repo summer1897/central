@@ -37,6 +37,7 @@
         <self-define-tools.version>4.0.0</self-define-tools.version>
         <current-project.version>1.0-SNAPSHOT</current-project.version>
         <swagger.version>2.7.0</swagger.version>
+        <JWT.version>3.3.0</JWT.version>
     </properties>
 
     <dependencies>
@@ -125,6 +126,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+
+        <!-- JTW -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${JWT.version}</version>
         </dependency>
 
 

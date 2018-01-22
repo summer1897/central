@@ -37,14 +37,14 @@ public interface IPermissionService extends IService<Permission> {
      * @param pageSize 分页数
      * @return List<Permission>
      */
-    List<Permission> queryByIdsAndPagination(Set<Integer> permissionIds, Integer pageNum, Integer pageSize);
+    List<Permission> queryByIdsAndPagination(Set<Long> permissionIds, Integer pageNum, Integer pageSize);
 
     /**
      * 查询当前权限的的所有子权限
      * @param permissionId
      * @return List<Permission>
      */
-    List<Permission> queryChildren(Integer permissionId);
+    List<Permission> queryChildren(Long permissionId);
 
     /**
      * 查询当前权限的的所有子权限，并分页返回
@@ -53,14 +53,14 @@ public interface IPermissionService extends IService<Permission> {
      * @param pageSize 分页数
      * @return List<Permission>
      */
-    List<Permission> queryChildren(Integer permissionId, Integer pageNum, Integer pageSize);
+    List<Permission> queryChildren(Long permissionId, Integer pageNum, Integer pageSize);
 
     /**
      * 根据多个权限ID查询其对应的所有子权限
      * @param permissionIds
      * @return List<Permission>
      */
-    List<Permission> queryAllChildren(Set<Integer> permissionIds);
+    List<Permission> queryAllChildren(Set<Long> permissionIds);
 
     /**
      * 根据多个权限ID查询其对应的所有子权限,分页返回
@@ -69,7 +69,7 @@ public interface IPermissionService extends IService<Permission> {
      * @param pageSize 分页数
      * @return List<Permission>
      */
-    List<Permission> queryAllChildren(Set<Integer> permissionIds, Integer pageNum, Integer pageSize);
+    List<Permission> queryAllChildren(Set<Long> permissionIds, Integer pageNum, Integer pageSize);
 
     /**
      * 根据权限名称模糊查询权限

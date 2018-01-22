@@ -17,20 +17,20 @@ public interface IRoleManager {
      * @param permissionIds
      * @return {@link boolean}
      */
-    boolean authorize(Integer roleId, Set<Integer> permissionIds);
+    boolean authorize(Long roleId, Set<Long> permissionIds);
 
     /**
      *
      * @param id
      * @return {@link boolean}
      */
-    boolean delete(Integer id);
+    boolean delete(Long id);
 
     /**
      *
      * @param ids
      * @return {@link boolean}
      */
-    boolean deleteBatch(Set<Integer> ids);
+    boolean deleteBatch(Set<Long> ids);
 
 }

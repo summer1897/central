@@ -46,12 +46,12 @@ public class TreeNode {
 
     public Node buildTree() {
 
-        Map<Integer, Node> nodeMap = Maps.newHashMap();
+        Map<Long, Node> nodeMap = Maps.newHashMap();
         if (ObjectUtils.isNotEmpty(nodes)) {
-            nodeMap = PropertyUtils.extractPropertyFromDomainToMap(nodes, "id", Integer.class);
+            nodeMap = PropertyUtils.extractPropertyFromDomainToMap(nodes, "id", Long.class);
         }
         if (ObjectUtils.isNotEmpty(nodeMap)) {
-            for (Integer nodeId : nodeMap.keySet()) {
+            for (Long nodeId : nodeMap.keySet()) {
                 Node node = nodeMap.get(nodeId);
                 Long parentId = ObjectUtils.isNotNull(node) ? node.getParentId() : null;
                 if (ObjectUtils.isNull(parentId) || 0 == parentId) {

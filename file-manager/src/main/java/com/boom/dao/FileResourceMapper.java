@@ -34,7 +34,7 @@ public interface FileResourceMapper extends SuperMapper<RoleFileResource> {
      * @param roleId 公司唯一标识ID
      * @return {@link List<RoleFileResource>}
      */
-    List<RoleFileResource> queryByRoleId(@Param("roleId") String roleId);
+    List<RoleFileResource> queryByRoleId(@Param("roleId") Long roleId);
 
     /**
      *

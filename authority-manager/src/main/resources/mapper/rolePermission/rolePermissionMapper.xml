@@ -4,7 +4,7 @@
 <mapper namespace="com.boom.dao.RolePermissionMapper" >
 
     
-    <select id="queryPermissionOfRole" resultType="java.lang.Integer">
+    <select id="queryPermissionOfRole" resultType="java.lang.Long">
         SELECT 
             permission_id
         FROM
@@ -13,7 +13,7 @@
             role_id = #{roleId}
     </select>
 
-    <select id="queryPermissionOfRoles" resultType="java.lang.Integer">
+    <select id="queryPermissionOfRoles" resultType="java.lang.Long">
         SELECT
           permission_id
         FROM

@@ -15,14 +15,14 @@ import java.util.Set;
  */
 public interface IUserRoleService extends IService<UserRole> {
 
-    List<UserRole> queryRoles(Integer userId);
+    List<UserRole> queryRoles(Long userId);
 
     /**
      * 根据用户ID查询所有角色ID
      * @param userId
-     * @return {@link List<Integer>}
+     * @return {@link List<Long>}
      */
-    List<Integer> queryByUserId(Integer userId);
+    List<Long> queryByUserId(Long userId);
 
     /**
      *
@@ -30,7 +30,7 @@ public interface IUserRoleService extends IService<UserRole> {
      * @param roleIds
      * @return {@link boolean}
      */
-    boolean add(Integer userId, Set<Integer> roleIds);
+    boolean add(Long userId, Set<Long> roleIds);
 
     /**
      *
@@ -38,6 +38,6 @@ public interface IUserRoleService extends IService<UserRole> {
      * @param roleIds
      * @return {@link boolean}
      */
-    boolean delete(Integer userId, Set<Integer> roleIds);
+    boolean delete(Long userId, Set<Long> roleIds);
 
 }

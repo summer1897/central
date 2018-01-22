@@ -44,7 +44,7 @@ public class UserManagerImpl implements IUserManager {
     private IPermissionService permissionService;
 
     @Override
-    public List<Node> queryTreeMenu(Integer userId) {
+    public List<Node> queryTreeMenu(Long userId) {
         log.info("Manager layer=========>UserManagerImpl.queryTreeMenu()");
 
         List<Permission> permissions = this.queryPermissionOfUser(userId);
@@ -53,7 +53,7 @@ public class UserManagerImpl implements IUserManager {
     }
 
     @Override
-    public List<String> queryUserPermission(Integer userId) {
+    public List<String> queryUserPermission(Long userId) {
         log.info("Manager layer=========>UserManagerImpl.queryUserPermission()");
 
         List<String> permissionNames = Lists.newArrayList();
@@ -64,11 +64,11 @@ public class UserManagerImpl implements IUserManager {
         return permissionNames;
     }
 
-    private List<Permission> queryPermissionOfUser(Integer userId) {
+    private List<Permission> queryPermissionOfUser(Long userId) {
         List<Permission> permissions = Lists.newArrayList();
-        List<Integer> permissionIds = Lists.newArrayList();
+        List<Long> permissionIds = Lists.newArrayList();
 
-        List<Integer> roleIds = this.queryRoleIdsOfUser(userId);
+        List<Long> roleIds = this.queryRoleIdsOfUser(userId);
 
         if (ObjectUtils.isNotEmpty(roleIds)) {
             permissionIds = rolePermissionService.queryPermissionOfRoles(Sets.newHashSet(roleIds));
@@ -81,13 +81,13 @@ public class UserManagerImpl implements IUserManager {
     }
 
     @Override
-    public List<String> queryUserRoles(Integer userId) {
+    public List<String> queryUserRoles(Long userId) {
         log.info("Manager layer=========>UserManagerImpl.queryUserRoles()");
 
         List<String> roleNames = Lists.newArrayList();
         List<Role> roles = Lists.newArrayList();
 
-        List<Integer> roleIds = this.queryRoleIdsOfUser(userId);
+        List<Long> roleIds = this.queryRoleIdsOfUser(userId);
 
         if (ObjectUtils.isNotEmpty(roleIds)) {
             roles.addAll(roleService.selectBatchIds(roleIds));
@@ -100,20 +100,20 @@ public class UserManagerImpl implements IUserManager {
         return roleNames;
     }
 
-    private List<Integer> queryRoleIdsOfUser(Integer userId) {
-        List<Integer> roleIds = userRoleService.queryByUserId(userId);
+    private List<Long> queryRoleIdsOfUser(Long userId) {
+        List<Long> roleIds = userRoleService.queryByUserId(userId);
         return roleIds;
     }
 
     @Override
-    public boolean addRoles(Integer userId, Set<Integer> roleIds) {
+    public boolean addRoles(Long userId, Set<Long> roleIds) {
         log.info("Manager layer=========>UserManagerImpl.addRoles()");
 
         return userRoleService.add(userId, roleIds);
     }
 
     @Override
-    public boolean deleteRoles(Integer userId, Set<Integer> roleIds) {
+    public boolean deleteRoles(Long userId, Set<Long> roleIds) {
         log.info("Manager layer=========>UserManagerImpl.deleteRoles()");
 
         return userRoleService.delete(userId, roleIds);
