@@ -3,6 +3,7 @@ package com.boom.utils;
 import com.boom.vo.Principal;
 import com.summer.base.utils.ObjectUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,10 @@ import java.util.List;
  * @Description 用户认证工具
  */
 public class SecurityUtil {
+
+    public static Subject getSubject() {
+        return SecurityUtils.getSubject();
+    }
 
     public static Principal getPrincipal() {
         return (Principal) SecurityUtils.getSubject().getPrincipal();

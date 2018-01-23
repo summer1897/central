@@ -1,9 +1,14 @@
 package com.boom.utils;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.summer.base.utils.ObjectUtils;
+import com.summer.base.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -19,12 +24,16 @@ import java.util.Date;
  */
 public class JWTUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(JWTUtils.class);
+
     /**
      * Token过期时间,默认为半天时间过期
      */
-    public static final long EXPIRE_TIME = 12*60*60*1000;
+    public static final long EXPIRATION_TIME = 12*60*60*1000;
 
     public static final String USER_NAME = "username";
+
+    private static final String SECRET = "ThisIsASecret";
 
     /**
      * 校验token是否正确
@@ -69,15 +78,63 @@ public class JWTUtils {
      */
     public static String sign(String username,String password) {
         try {
-            Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+            Date expireDate = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
             Algorithm algorithm = Algorithm.HMAC256(password);
             return JWT.create()
                       .withClaim(USER_NAME,username)
                       .withExpiresAt(expireDate)
                       .sign(algorithm);
         } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage(),e);
             return null;
         }
+    }
+
+    public static String hmacDigest(String digest) {
+        String secretDigest = null;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(digest);
+            secretDigest = JWT.create().sign(algorithm);
+        } catch (UnsupportedEncodingException e) {
+        }
+        return secretDigest;
+    }
+
+    public static String applyToken(String id,String subject,String issuer,Long period,
+                                    String roles,String permissions) {
+        String token = null;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JWTCreator.Builder builder = JWT.create();
+            long now = System.currentTimeMillis();
+
+            if (StringUtils.isNotEmpty(id)) {
+                builder.withJWTId(id);
+            }
+            if (StringUtils.isNotEmpty(subject)) {
+                builder.withSubject(subject);
+            }
+            if (StringUtils.isNotEmpty(issuer)) {
+                builder.withIssuer(issuer);
+            }
+            if (ObjectUtils.isNotNull(period)) {
+                Date expiration = new Date(now + period);
+                builder.withExpiresAt(expiration);
+            } else {
+                Date expiration = new Date(now + EXPIRATION_TIME);
+                builder.withExpiresAt(expiration);
+            }
+            if (StringUtils.isNotEmpty(roles)) {
+                builder.withClaim("roles",roles);
+            }
+            if (StringUtils.isNotEmpty(permissions)) {
+                builder.withClaim("perms",permissions);
+            }
+            token = builder.sign(algorithm);
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage(),e);
+        }
+        return token;
     }
 
 }

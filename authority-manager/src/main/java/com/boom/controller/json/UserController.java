@@ -2,8 +2,6 @@ package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 
-import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
 import com.boom.manager.IUserManager;

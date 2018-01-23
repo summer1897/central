@@ -13,6 +13,7 @@
         <module>common-manager</module>
         <module>file-manager</module>
         <module>authority-manager</module>
+        <module>login-manager</module>
     </modules>
 
     <parent>

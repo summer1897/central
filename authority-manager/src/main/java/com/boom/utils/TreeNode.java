@@ -10,7 +10,6 @@ import com.summer.base.utils.ObjectUtils;
 import com.summer.base.utils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;

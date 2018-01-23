@@ -1,18 +1,15 @@
-package com.boom.controller.json;
+package com.boom.controller;
 
 
 import com.boom.domain.User;
 import com.boom.service.IUserService;
 import com.boom.utils.EncryptionUtils;
 import com.boom.utils.JWTUtils;
-import com.boom.utils.SecurityUtil;
 import com.boom.vo.ResultVo;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
