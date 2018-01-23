@@ -3,6 +3,7 @@ package com.boom.utils;
 import com.boom.vo.Principal;
 import com.summer.base.utils.ObjectUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 
 import java.util.Arrays;

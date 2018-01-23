@@ -29,17 +29,13 @@ public class AccountCredentialsServiceImpl implements IAccountCredentialsService
     private AccountCredentialsMapper accountCredentialsMapper;
 
     @Override
-    public AccountCredentialsDto queryByUserName(String userName) {
+    public AccountCredentials queryByUserName(String userName) {
         log.info("Service layer==================>AccountCredentialsServiceImpl.queryByUserName()");
 
         AccountCredentials accountCredentials = null;
-        AccountCredentialsDto accountCredentialsDto = null;
         if (StringUtils.isNotEmpty(userName)) {
             accountCredentials = accountCredentialsMapper.queryByUserName(userName);
         }
-        if (ObjectUtils.isNotNull(accountCredentials)) {
-            accountCredentialsDto = BeanCloneUtils.clone(accountCredentials,AccountCredentials.class,AccountCredentialsDto.class);
-        }
-        return accountCredentialsDto;
+        return accountCredentials;
     }
 }

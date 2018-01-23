@@ -1,6 +1,6 @@
 package com.boom.service;
 
-import com.boom.service.dto.AccountCredentialsDto;
+import com.boom.domain.AccountCredentials;
 
 /**
  * Created by Intellij IDEA
@@ -16,8 +16,8 @@ public interface IAccountCredentialsService {
     /**
      *
      * @param userName
-     * @return {@link AccountCredentialsDto}
+     * @return {@link AccountCredentials}
      */
-    AccountCredentialsDto queryByUserName(String userName);
+    AccountCredentials queryByUserName(String userName);
 
 }

@@ -61,8 +61,8 @@ public class TreeNode {
                         parent.addChild(node);
                     } else {
                         log.debug("parent id is: {},{}",parentId, JSON.toJSONString(node,true));
-                        System.out.println("parent id is: " + parentId);
-                        System.out.println("node id is: " + JSON.toJSONString(node,true));
+//                        System.out.println("parent id is: " + parentId);
+//                        System.out.println("node id is: " + JSON.toJSONString(node,true));
                     }
                 }
             }

@@ -1,7 +1,10 @@
 package com.boom.shiro;
 
+import com.boom.domain.AccountCredentials;
 import com.boom.domain.User;
+import com.boom.manager.IAccountCredentialsManager;
 import com.boom.manager.IUserManager;
+import com.boom.service.IAccountCredentialsService;
 import com.boom.service.IUserService;
 import com.boom.vo.Principal;
 import com.summer.base.utils.ObjectUtils;
@@ -28,9 +31,9 @@ public class RBACShiroRealm extends AuthorizingRealm {
     private static final Logger log = LoggerFactory.getLogger(RBACShiroRealm.class);
 
     @Autowired
-    private IUserManager userManager;
+    private IAccountCredentialsService accountCredentialsService;
     @Autowired
-    private IUserService userService;
+    private IAccountCredentialsManager accountCredentialsManager;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -40,8 +43,8 @@ public class RBACShiroRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
-        List<String> roles = userManager.queryUserRoles(userId);
-        List<String> permissions = userManager.queryUserPermission(userId);
+        List<String> roles = accountCredentialsManager.queryRoles(userId);
+        List<String> permissions = accountCredentialsManager.queryPermissions(userId);
 
         if (ObjectUtils.isNotEmpty(roles)) {
             authorizationInfo.addRoles(roles);
@@ -59,21 +62,21 @@ public class RBACShiroRealm extends AuthorizingRealm {
         String userName = (String) authenticationToken.getPrincipal();
 
         //从数据库中，根据当前用户名查找对应的用户
-        User user = userService.queryByName(userName);
+        AccountCredentials account = accountCredentialsService.queryByUserName(userName);
 
-        if (ObjectUtils.isNotNull(user)) {
+        if (ObjectUtils.isNull(account)) {
             log.info("当前用户不存在");
             throw new AuthenticationException("用户名或密码错误!");
         } else {
-            Byte locked = user.getLocked();
+            Byte locked = account.getLocked();
             if (Principal.STATUS_NO_ACTIVATION == locked) {
                 throw new AuthenticationException("改用户还为激活!");
             } else if (Principal.STATUS_NO_LOCKED == locked) {
                 throw new AuthenticationException("用户已被禁用!");
             } else if (Principal.STATUS_NO_NORMAL == locked){
-                ByteSource pwdSalt = ByteSource.Util.bytes(user.getCredentialSalt());
+                ByteSource pwdSalt = ByteSource.Util.bytes(account.getCredentialSalt());
                 return new SimpleAuthenticationInfo(userName,
-                        user.getPassword(),
+                        account.getPassword(),
                         pwdSalt,
                         getName());
             } else {

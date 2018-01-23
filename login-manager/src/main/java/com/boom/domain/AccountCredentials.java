@@ -102,4 +102,13 @@ public class AccountCredentials extends BaseDomain implements Serializable {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+    /**
+     * 密码盐（用于对明文密码进行加密）
+     *
+     * @return
+     */
+    public String getCredentialSalt() {
+        return this.userName + this.salt;
+    }
 }

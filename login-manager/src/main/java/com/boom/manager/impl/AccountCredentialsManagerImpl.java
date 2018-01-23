@@ -1,9 +1,12 @@
 package com.boom.manager.impl;
 
+import com.boom.domain.AccountCredentials;
 import com.boom.manager.IAccountCredentialsManager;
 import com.boom.manager.IUserManager;
 import com.boom.service.IAccountCredentialsService;
 import com.boom.service.dto.AccountCredentialsDto;
+import com.summer.base.utils.BeanCloneUtils;
+import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,13 @@ public class AccountCredentialsManagerImpl implements IAccountCredentialsManager
     @Override
     public AccountCredentialsDto queryByUserName(String userName) {
         logger.info("Manager layer===============>AccountCredentialsManagerImpl.queryByUserName()");
-        return accountCredentialsService.queryByUserName(userName);
+
+        AccountCredentials accountCredentials = accountCredentialsService.queryByUserName(userName);
+        AccountCredentialsDto accountCredentialsDto = null;
+        if (ObjectUtils.isNotNull(accountCredentials)) {
+            BeanCloneUtils.clone(accountCredentials,AccountCredentials.class,AccountCredentialsDto.class);
+        }
+        return accountCredentialsDto;
     }
 
     @Override

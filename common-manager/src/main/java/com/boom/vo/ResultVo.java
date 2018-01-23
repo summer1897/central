@@ -1,5 +1,6 @@
 package com.boom.vo;
 
+import com.boom.enums.HttpStatus;
 import com.summer.base.utils.ObjectUtils;
 
 import java.io.Serializable;
@@ -23,6 +24,7 @@ public class ResultVo implements Serializable {
     public static final int FAIL_STATUS_CODE = -1;
     /**操作成功状态码*/
     public static final int SUCCESS_STATUS_CODE = 1;
+
 
     /**相应码*/
     private int code;
@@ -63,6 +65,22 @@ public class ResultVo implements Serializable {
         return new ResultVo(code,msg,data);
     }
 
+    public static ResultVo success(HttpStatus httpStatus) {
+        if (ObjectUtils.isNotNull(httpStatus)) {
+            return ResultVo.success(httpStatus.getCode(),httpStatus.getMsg());
+        } else {
+            return ResultVo.success();
+        }
+    }
+
+    public static ResultVo success(HttpStatus httpStatus,Object data) {
+        if (ObjectUtils.isNotNull(httpStatus)) {
+            return ResultVo.success(httpStatus.getCode(),httpStatus.getMsg(),data);
+        } else {
+            return ResultVo.success(data);
+        }
+    }
+
     public static ResultVo fail() {
         return new ResultVo(FAIL_STATUS_CODE,FAIL_MSG);
     }
@@ -77,6 +95,14 @@ public class ResultVo implements Serializable {
 
     public static ResultVo fail(int code,String msg) {
         return new ResultVo(code,msg);
+    }
+
+    public static ResultVo fail(HttpStatus httpStatus) {
+        if (ObjectUtils.isNotNull(httpStatus)) {
+            return ResultVo.fail(httpStatus.getCode(),httpStatus.getMsg());
+        } else {
+            return ResultVo.fail();
+        }
     }
 
     public ResultVo() {

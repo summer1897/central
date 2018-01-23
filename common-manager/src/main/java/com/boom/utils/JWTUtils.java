@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.summer.base.utils.ObjectUtils;
 import com.summer.base.utils.StringUtils;
@@ -29,28 +30,30 @@ public class JWTUtils {
     /**
      * Token过期时间,默认为半天时间过期
      */
-    public static final long EXPIRATION_TIME = 12*60*60*1000;
+    public static final long EXPIRATION_TIME = 60*1000;
 
     public static final String USER_NAME = "username";
 
-    private static final String SECRET = "ThisIsASecret";
+    public static final String SECRET = "ThisIsASecret";
 
     /**
      * 校验token是否正确
      * @param token 密钥
      * @param username 用户名
-     * @param password 密码
+     * @param secret 密码
      * @return boolean
      */
-    public static boolean verify(String token,String username,String password) {
+    public static boolean verify(String token,String username,String secret) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(password);
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
                                       .withClaim("username",username)
                                       .build();
             verifier.verify(token);
             return true;
-        } catch (Exception e) {
+        } catch (TokenExpiredException e1) {
+            throw new TokenExpiredException("access token is expired");
+        } catch (Exception e2) {
             //验证失败，直接返回false
             return false;
         }
@@ -65,6 +68,15 @@ public class JWTUtils {
         try {
             DecodedJWT decoded = JWT.decode(token);
             return decoded.getClaim(USER_NAME).asString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Object get(String token,String key) {
+        try {
+            DecodedJWT decoded = JWT.decode(token);
+            return decoded.getClaim(key);
         } catch (Exception e) {
             return null;
         }

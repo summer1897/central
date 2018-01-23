@@ -1,12 +1,18 @@
 package com.boom.controller;
 
 
-import com.boom.domain.User;
-import com.boom.service.IUserService;
+import com.alibaba.fastjson.JSON;
+import com.boom.domain.AccountCredentials;
+import com.boom.enums.AccountSatus;
+import com.boom.enums.HttpStatus;
+import com.boom.service.IAccountCredentialsService;
 import com.boom.utils.EncryptionUtils;
 import com.boom.utils.JWTUtils;
+import com.boom.utils.SecurityUtil;
 import com.boom.vo.ResultVo;
+import com.summer.base.utils.ObjectUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,36 +26,51 @@ public class LoginController {
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private IUserService userService;
+    private IAccountCredentialsService accountCredentialsService;
 
-    @GetMapping("/login")
+    @GetMapping("/login.html")
     public String login() {
         log.info("method:GET;path:/login.html");
-        return "/login";
+        return "/login.json";
     }
 
     @PostMapping("/login.json")
-    public ResultVo loginHandler(@RequestParam(value = "userName",required = true) String userName,
-                                 @RequestParam(value = "password",required = true) String password) {
-        log.info("method:POST;path:/login.html");
+    public ResultVo loginHandler(@RequestBody AccountCredentials accountCredentials) {
+        log.info("method:POST;path:/login.json======>LoginController.loginHandler({})",
+                JSON.toJSONString(accountCredentials,true));
 
-        User user = userService.queryByName(userName);
+        String userName = ObjectUtils.isNotNull(accountCredentials) ? accountCredentials.getUserName() : null;
+        String password = ObjectUtils.isNotNull(accountCredentials) ? accountCredentials.getPassword() : null;
 
-        if (null == user) {
+        AccountCredentials account = accountCredentialsService.queryByUserName(userName);
+
+        if (ObjectUtils.isNull(account)) {
             log.info("has no user");
-            throw new UnknownAccountException();
+            throw new UnknownAccountException("用户不存在");
+        } else {
+            Byte locked = account.getLocked();
+            if (locked == AccountSatus.UN_ACTIVATION_STATUS.getStatus()) {
+                throw new UnknownAccountException("用户未激活");
+            } else if (locked == AccountSatus.FORBIDDEN_STATUS.getStatus()) {
+                throw new UnknownAccountException("用户被禁用");
+            }
         }
 
-//        UsernamePasswordToken token = new UsernamePasswordToken(userName, EncryptionUtils.encrypt(password,user.getCredentialSalt()));
-        //obtain the current subject
-//        Subject currentUser = SecurityUtil.getSubject();
+        log.warn("secret password:{}",EncryptionUtils.encrypt(password,account.getCredentialSalt()));
+
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, EncryptionUtils.encrypt(password,account.getCredentialSalt()));
+//        obtain the current subject
+        Subject currentUser = SecurityUtil.getSubject();
 
         try {
-            log.info("验证当前用户");
+            /*log.info("验证当前用户");
             if (user.getPassword().equals(EncryptionUtils.encrypt(password,user.getCredentialSalt()))) {
                 return ResultVo.success(200,ResultVo.SUCCESS_MSG,JWTUtils.sign(userName,password));
-            }
-//            currentUser.login(token);
+            }*/
+            currentUser.login(token);
+
+            //返回用户token
+            return ResultVo.success(HttpStatus.STATUS_OK,JWTUtils.sign(userName,JWTUtils.SECRET));
         } catch (UnknownAccountException uae) {
             log.info("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
         } catch (IncorrectCredentialsException ice) {
@@ -61,6 +82,6 @@ public class LoginController {
         } catch (AuthenticationException ae) {
             log.info("对用户[" + userName + "]进行登录验证..验证未通过,堆栈轨迹如下");
         }
-        throw new UnknownAccountException();
+        throw new UnknownAccountException("用户密码错误");
     }
 }
