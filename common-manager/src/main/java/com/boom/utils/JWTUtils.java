@@ -30,7 +30,7 @@ public class JWTUtils {
     /**
      * Token过期时间,默认为半天时间过期
      */
-    public static final long EXPIRATION_TIME = 60*1000;
+    public static final long EXPIRATION_TIME = 3600_000;
 
     public static final String USER_NAME = "username";
 

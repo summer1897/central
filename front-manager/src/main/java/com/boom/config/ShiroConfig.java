@@ -38,9 +38,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 添加自己的过滤器并且取名为jwt
-        /*Map<String, Filter> filterMap = Maps.newHashMap();
+        Map<String, Filter> filterMap = Maps.newHashMap();
         filterMap.put("tokenFilter", new TokenFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);*/
+        shiroFilterFactoryBean.setFilters(filterMap);
 
         //2.为ShiroFilterFactoryBean设置SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -56,8 +56,8 @@ public class ShiroConfig {
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/login.json","anon");
         filterChainDefinitionMap.put("/swagger-ui.html","anon");
-        filterChainDefinitionMap.put("/**","authc");
-//        filterChainDefinitionMap.put("/**","tokenFilter");
+//        filterChainDefinitionMap.put("/**","authc");
+        filterChainDefinitionMap.put("/**","tokenFilter");
 //        filterChainDefinitionMap.put("/auth/**","hmac");
 
         //4.设置登录页面,默认回去webapp下面寻找login.jsp页面
