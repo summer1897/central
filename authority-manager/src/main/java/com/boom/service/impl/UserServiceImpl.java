@@ -34,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
     private UserMapper userMapper;
 
     @Override
-    public Integer queryTotal() {
+    public Long queryTotal() {
         log.info("Service layer========================>UserServiceImpl.queryTotal()");
         return userMapper.queryTotal();
     }

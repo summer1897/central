@@ -3,6 +3,7 @@ package com.boom.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.boom.domain.Role;
+import com.boom.service.dto.SimpleRoleDto;
 
 import java.util.List;
 
@@ -14,6 +15,12 @@ import java.util.List;
  * @Description 角色服务层操作接口
  */
 public interface IRoleService extends IService<Role> {
+
+    /**
+     *
+     * @return {@link SimpleRoleDto}
+     */
+    List<SimpleRoleDto> queryAllAvailableSimpleRoles();
 
     /**
      * 根据角色名称模糊查找角色对象

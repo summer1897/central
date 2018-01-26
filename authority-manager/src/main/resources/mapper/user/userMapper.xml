@@ -21,8 +21,8 @@
         id,user_name,nick_name,sex,phone,email,password,salt,locked,birthday,create_date,modify_date
     </sql>
     
-    <select id="queryTotal" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM user;
+    <select id="queryTotal" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM user;
     </select>
 
     <select id="queryByName" resultMap="BaseResultMap">
@@ -32,6 +32,7 @@
           user
         WHERE
           user_name = #{userName}
+        ORDER BY create_date DESC
     </select>
 
     <select id="queryLikeUserName" resultMap="BaseResultMap">
@@ -41,6 +42,7 @@
         user
         WHERE
         user_name LIKE concat('%',#{userName},'%')
+        ORDER BY create_date DESC
     </select>
 
     <select id="queryAll" resultMap="BaseResultMap">
@@ -48,5 +50,6 @@
           <include refid="base_sql_lists"/>
         FROM
           user
+        ORDER BY create_date DESC
     </select>
 </mapper>

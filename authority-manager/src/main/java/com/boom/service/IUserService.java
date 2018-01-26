@@ -18,9 +18,9 @@ public interface IUserService extends IService<User> {
 
     /**
      *
-     * @return {@link Integer}
+     * @return {@link Long}
      */
-    Integer queryTotal();
+    Long queryTotal();
 
     /**
      * 根据用户名模糊查询

@@ -47,7 +47,7 @@ public class AccountCredentialsManagerImpl implements IAccountCredentialsManager
     @Override
     public List<String> queryRoles(Long id) {
         logger.info("Manager layer===============>AccountCredentialsManagerImpl.queryRoles()");
-        return userManager.queryUserRoles(id);
+        return userManager.queryUserRolesStr(id);
     }
 
     @Override

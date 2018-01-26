@@ -2,6 +2,8 @@ package com.boom.config;
 
 import com.boom.shiro.*;
 import com.google.common.collect.Maps;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -78,31 +80,20 @@ public class ShiroConfig {
     }
 
     @Bean
-    public HmacRealm getHmacRealm() {
-        return new HmacRealm();
-    }
-
-    @Bean
-    public AgileSubjectFactory getAgileSubjectFactory() {
-        return new AgileSubjectFactory();
-    }
-
-    @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(rBACShiroRealm());
 //        securityManager.setRealm(getHmacRealm());
-        securityManager.setSubjectFactory(getAgileSubjectFactory());
 
         /**
          * 关闭shiro自带的session
          */
-        /*DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator evaluator = new DefaultSessionStorageEvaluator();
         evaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(evaluator);
 
-        securityManager.setSubjectDAO(subjectDAO);*/
+        securityManager.setSubjectDAO(subjectDAO);
 
         return securityManager;
     }

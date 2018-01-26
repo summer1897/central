@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.boom.exception.ControllerException;
 import com.summer.base.utils.ObjectUtils;
 import com.summer.base.utils.StringUtils;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class JWTUtils {
     /**
      * Token过期时间,默认为半天时间过期
      */
-    public static final long EXPIRATION_TIME = 3600_000;
+    public static final long EXPIRATION_TIME = 12*60*60*1000;
 
     public static final String USER_NAME = "username";
 
@@ -52,10 +53,10 @@ public class JWTUtils {
             verifier.verify(token);
             return true;
         } catch (TokenExpiredException e1) {
-            throw new TokenExpiredException("access token is expired");
+            throw new ControllerException("access token is expired");
         } catch (Exception e2) {
             //验证失败，直接返回false
-            return false;
+            throw new ControllerException(e2.getMessage(),e2);
         }
     }
 
