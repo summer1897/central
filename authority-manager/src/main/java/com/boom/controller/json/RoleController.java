@@ -2,8 +2,10 @@ package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 import com.boom.domain.Role;
+import com.boom.enums.HttpStatus;
 import com.boom.manager.IRoleManager;
 import com.boom.service.IRoleService;
+import com.boom.service.dto.SimpleRoleDto;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
 import com.summer.base.utils.ObjectUtils;
@@ -32,6 +34,17 @@ public class RoleController {
     private IRoleService roleService;
     @Autowired
     private IRoleManager roleManager;
+
+    @GetMapping("/query_all_available.json")
+    public ResultVo getAllAvailable() {
+        log.info("Controller layer:查询所有可用角色信息===>RoleController.list()");
+
+        List<SimpleRoleDto> simpleRoleDtos = roleService.queryAllAvailableSimpleRoles();
+        if (ObjectUtils.isNotEmpty(simpleRoleDtos)) {
+            return ResultVo.success(HttpStatus.STATUS_OK,simpleRoleDtos);
+        }
+        return ResultVo.fail("暂无角色信息");
+    }
 
     @GetMapping(value = "/query_by_name.json/{name}")
     public ResultVo get(@PathVariable("name") String name) {

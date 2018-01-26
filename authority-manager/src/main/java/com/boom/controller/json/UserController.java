@@ -2,18 +2,23 @@ package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
 
+import com.alibaba.fastjson.JSONObject;
 import com.boom.controller.vo.UserVo;
 import com.boom.domain.User;
+import com.boom.enums.HttpStatus;
 import com.boom.manager.IUserManager;
 import com.boom.service.IUserService;
 import com.boom.service.dto.Node;
+import com.boom.service.dto.SimpleRoleDto;
 import com.boom.utils.EncryptionUtils;
+import com.boom.utils.MapBuilder;
+import com.boom.utils.MapUtils;
 import com.boom.utils.RandomIdGenerator;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Maps;
 import com.summer.base.utils.BeanCloneUtils;
 import com.summer.base.utils.ObjectUtils;
+import com.summer.base.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +41,9 @@ public class UserController {
     public ResultVo queryTotal() {
         log.info("Controller layer:用户总数统计===>UserController.queryTotal()");
 
-        Integer total = userService.queryTotal();
+        Long total = userService.queryTotal();
         if (ObjectUtils.isNotNull(total)) {
-            ResultVo.success(Maps.newHashMap().put("total",total));
+            return ResultVo.success(HttpStatus.STATUS_OK, MapUtils.builder().putVal("total",total));
         }
         return ResultVo.fail("暂无用户信息");
     }
@@ -49,7 +54,7 @@ public class UserController {
 
         User user =  userService.queryByName(name);
         if (ObjectUtils.isNotNull(user)) {
-            ResultVo.success(BeanCloneUtils.clone(user,User.class,UserVo.class));
+            ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(user,User.class,UserVo.class));
         }
         return ResultVo.fail("没有找到改用户信息");
     }
@@ -61,7 +66,7 @@ public class UserController {
         List<User> users = userService.queryAll();
         if (ObjectUtils.isNotEmpty(users)) {
 //            log.warn("uservo infos:{}",JSON.toJSONString(BeanCloneUtils.deepClone(users,User.class,UserVo.class),true));
-            return ResultVo.success(BeanCloneUtils.deepClone(users,User.class,UserVo.class));
+            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.deepClone(users,User.class,UserVo.class));
         }
         return ResultVo.fail("没有查到用户信息");
     }
@@ -72,7 +77,7 @@ public class UserController {
 
         List<User> users = userService.queryAllByPagination(pageNum,pageSize);
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(new PageInfo<>(BeanCloneUtils.clone(users,User.class,UserVo.class)));
+            return ResultVo.success(HttpStatus.STATUS_OK,new PageInfo<>(BeanCloneUtils.clone(users,User.class,UserVo.class)));
         }
         return ResultVo.fail("没有查到用户信息");
     }
@@ -83,7 +88,7 @@ public class UserController {
 
         User user = userService.queryByName(userName);
         if (ObjectUtils.isNotNull(user)) {
-            return ResultVo.success(BeanCloneUtils.clone(user,User.class,UserVo.class));
+            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(user,User.class,UserVo.class));
         }
         return ResultVo.fail("没有查到用户信息");
     }
@@ -94,7 +99,7 @@ public class UserController {
 
         List<User> users = userService.queryLikeUserName(userName);
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(BeanCloneUtils.clone(users,User.class,UserVo.class));
+            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(users,User.class,UserVo.class));
         }
         return ResultVo.fail("没有查到用户信息");
     }
@@ -105,7 +110,7 @@ public class UserController {
 
         List<Node> menus = userManager.queryTreeMenu(1l);
         if (ObjectUtils.isNotEmpty(menus)) {
-            return ResultVo.success(menus);
+            return ResultVo.success(HttpStatus.STATUS_OK,menus);
         }
         return ResultVo.fail("没有查到用户菜单信息");
     }
@@ -150,6 +155,9 @@ public class UserController {
         log.info("Controller layer:更新用户信息===============>UserController.update({})",
                 JSON.toJSONString(user,true));
 
+        if (ObjectUtils.isNotNull(user) && StringUtils.isNotEmpty(user.getPassword())) {
+            this.encrypt(user);
+        }
         boolean success = userService.updateById(user);
         if (success) {
             return ResultVo.success("更新用户成功");
@@ -168,7 +176,7 @@ public class UserController {
         return ResultVo.fail("用户角色添加失败");
     }
 
-    @GetMapping("/add.json")
+    @GetMapping("/delete_roles.json/{roleIds}")
     public ResultVo deleteRoles(@PathVariable Set<Long> roleIds) {
         log.info("Controller layer:用户角色删除===============>UserController.add({})",roleIds);
 
@@ -181,18 +189,22 @@ public class UserController {
 
     @GetMapping("/query_user_roles.json/{userId}")
     public ResultVo getUserRoles(@PathVariable Long userId) {
-        List<String> roles = userManager.queryUserRoles(userId);
-        if (ObjectUtils.isNotEmpty(roles)) {
-            return ResultVo.success(roles);
+        log.info("Controller layer:查询用户角色===============>UserController.getUserRoles({})",userId);
+
+        List<SimpleRoleDto> simpleRoles = userManager.queryUserRoles(userId);
+        if (ObjectUtils.isNotEmpty(simpleRoles)) {
+            return ResultVo.success(HttpStatus.STATUS_OK,simpleRoles);
         }
         return ResultVo.fail("用户没有角色信息");
     }
 
     @GetMapping("/query_user_permissions.json/{userId}")
     public ResultVo getUserPermission(@PathVariable Long userId) {
+        log.info("Controller layer:查询用户权限===============>UserController.getUserPermission({})",userId);
+
         List<String> permissions = userManager.queryUserPermission(userId);
         if (ObjectUtils.isNotEmpty(permissions)) {
-            return ResultVo.success(permissions);
+            return ResultVo.success(HttpStatus.STATUS_OK,permissions);
         }
         return ResultVo.fail("用户没有权限信息");
     }

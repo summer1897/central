@@ -63,10 +63,6 @@ public class LoginController {
         Subject currentUser = SecurityUtil.getSubject();
 
         try {
-            /*log.info("验证当前用户");
-            if (user.getPassword().equals(EncryptionUtils.encrypt(password,user.getCredentialSalt()))) {
-                return ResultVo.success(200,ResultVo.SUCCESS_MSG,JWTUtils.sign(userName,password));
-            }*/
             currentUser.login(token);
 
             //返回用户token

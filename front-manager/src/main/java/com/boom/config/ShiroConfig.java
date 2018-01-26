@@ -2,6 +2,8 @@ package com.boom.config;
 
 import com.boom.shiro.*;
 import com.google.common.collect.Maps;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -38,9 +40,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 添加自己的过滤器并且取名为jwt
-        /*Map<String, Filter> filterMap = Maps.newHashMap();
+        Map<String, Filter> filterMap = Maps.newHashMap();
         filterMap.put("tokenFilter", new TokenFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);*/
+        shiroFilterFactoryBean.setFilters(filterMap);
 
         //2.为ShiroFilterFactoryBean设置SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -56,8 +58,8 @@ public class ShiroConfig {
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/login.json","anon");
         filterChainDefinitionMap.put("/swagger-ui.html","anon");
-        filterChainDefinitionMap.put("/**","authc");
-//        filterChainDefinitionMap.put("/**","tokenFilter");
+//        filterChainDefinitionMap.put("/**","authc");
+        filterChainDefinitionMap.put("/**","tokenFilter");
 //        filterChainDefinitionMap.put("/auth/**","hmac");
 
         //4.设置登录页面,默认回去webapp下面寻找login.jsp页面
@@ -78,31 +80,20 @@ public class ShiroConfig {
     }
 
     @Bean
-    public HmacRealm getHmacRealm() {
-        return new HmacRealm();
-    }
-
-    @Bean
-    public AgileSubjectFactory getAgileSubjectFactory() {
-        return new AgileSubjectFactory();
-    }
-
-    @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(rBACShiroRealm());
 //        securityManager.setRealm(getHmacRealm());
-        securityManager.setSubjectFactory(getAgileSubjectFactory());
 
         /**
          * 关闭shiro自带的session
          */
-        /*DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator evaluator = new DefaultSessionStorageEvaluator();
         evaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(evaluator);
 
-        securityManager.setSubjectDAO(subjectDAO);*/
+        securityManager.setSubjectDAO(subjectDAO);
 
         return securityManager;
     }

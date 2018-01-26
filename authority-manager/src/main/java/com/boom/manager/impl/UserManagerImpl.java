@@ -1,5 +1,6 @@
 package com.boom.manager.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.boom.domain.Permission;
 import com.boom.domain.Role;
 import com.boom.manager.IUserManager;
@@ -8,9 +9,11 @@ import com.boom.service.IRolePermissionService;
 import com.boom.service.IRoleService;
 import com.boom.service.IUserRoleService;
 import com.boom.service.dto.Node;
+import com.boom.service.dto.SimpleRoleDto;
 import com.boom.utils.TreeNode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.summer.base.utils.BeanCloneUtils;
 import com.summer.base.utils.ObjectUtils;
 import com.summer.base.utils.PropertyUtils;
 import org.slf4j.Logger;
@@ -81,20 +84,35 @@ public class UserManagerImpl implements IUserManager {
     }
 
     @Override
-    public List<String> queryUserRoles(Long userId) {
+    public List<SimpleRoleDto> queryUserRoles(Long userId) {
         log.info("Manager layer=========>UserManagerImpl.queryUserRoles()");
 
-        List<String> roleNames = Lists.newArrayList();
         List<Role> roles = Lists.newArrayList();
-
+        List<SimpleRoleDto> simpleRoles = Lists.newArrayList();
         List<Long> roleIds = this.queryRoleIdsOfUser(userId);
 
         if (ObjectUtils.isNotEmpty(roleIds)) {
-            roles.addAll(roleService.selectBatchIds(roleIds));
+            EntityWrapper condition = new EntityWrapper();
+            condition.in("id",roleIds).and().eq("available",Role.AVAILABLE);
+            roles.addAll(roleService.selectList(condition));
         }
 
         if (ObjectUtils.isNotEmpty(roles)) {
-            roleNames.addAll(PropertyUtils.extractPropertyFromDomain(roles,"name",String.class));
+            simpleRoles.addAll(BeanCloneUtils.clone(roles,Role.class,SimpleRoleDto.class));
+        }
+
+        return simpleRoles;
+    }
+
+    @Override
+    public List<String> queryUserRolesStr(Long userId) {
+        log.info("Manager layer=========>UserManagerImpl.queryUserRoles()");
+
+        List<String> roleNames = Lists.newArrayList();
+        List<SimpleRoleDto> simpleRoles = this.queryUserRoles(userId);
+
+        if (ObjectUtils.isNotEmpty(simpleRoles)) {
+            roleNames.addAll(PropertyUtils.extractPropertyFromDomain(simpleRoles,"name",String.class));
         }
 
         return roleNames;

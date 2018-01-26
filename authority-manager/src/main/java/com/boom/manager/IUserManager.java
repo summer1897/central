@@ -1,6 +1,7 @@
 package com.boom.manager;
 
 import com.boom.service.dto.Node;
+import com.boom.service.dto.SimpleRoleDto;
 
 import java.util.List;
 import java.util.Set;
@@ -29,11 +30,18 @@ public interface IUserManager {
     List<String> queryUserPermission(Long userId);
 
     /**
-     * 查询用户拥有的角色信息
+     * 查询用户所拥有的所有角色信息
+     * @param userId
+     * @return {@link List<SimpleRoleDto>}
+     */
+    List<SimpleRoleDto> queryUserRoles(Long userId);
+
+    /**
+     * 查询用户拥有的所有角色名称
      * @param userId
      * @return List<String>
      */
-    List<String> queryUserRoles(Long userId);
+    List<String> queryUserRolesStr(Long userId);
 
     /**
      * 用户添加角色
