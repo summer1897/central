@@ -1,5 +1,7 @@
 USE repository;
 
+USE repository;
+
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS permission;
@@ -9,7 +11,7 @@ DROP TABLE IF EXISTS file;
 
 #create user table
 CREATE TABLE user (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '唯一标识ID',
+  id BIGINT NOT NULL COMMENT '唯一标识ID',
   user_name VARCHAR(300) NOT NULL COMMENT '用户名',
   nick_name VARCHAR(300) NOT NULL COMMENT '昵称或姓名',
   sex TINYINT NOT NULL DEFAULT 0 COMMENT '性别，默认为0，表示男，1表示女',
@@ -29,7 +31,7 @@ CREATE TABLE user (
 
 #create role table
 CREATE TABLE role (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '角色唯一标识ID',
+  id BIGINT NOT NULL COMMENT '角色唯一标识ID',
   name VARCHAR(200) NOT NULL COMMENT '角色名称',
   description VARCHAR(300) COMMENT '角色描述',
   available SMALLINT DEFAULT 0 COMMENT '是否可用，0:表示不可用，1:表示可用',
@@ -40,7 +42,7 @@ CREATE TABLE role (
 
 #create permission table
 CREATE TABLE permission (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '资源唯一标识ID',
+  id BIGINT NOT NULL COMMENT '资源唯一标识ID',
   parent_id INT COMMENT '父级菜单Id',
   parent_ids VARCHAR(300) COMMENT '父级编号列表',
   name VARCHAR(200) NOT NULL COMMENT '资源名称',
@@ -57,7 +59,7 @@ CREATE TABLE permission (
 
 #create user_role table
 CREATE TABLE user_role (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '唯一标识ID',
+  id BIGINT NOT NULL COMMENT '唯一标识ID',
   user_id INT NOT NULL COMMENT '用户唯一标识ID',
   role_id INT NOT NULL COMMENT '角色唯一标识ID',
   description VARCHAR(500) COMMENT '描述',
@@ -68,7 +70,7 @@ CREATE TABLE user_role (
 
 #create role_permission table
 CREATE TABLE role_permission (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '唯一标识ID',
+  id BIGINT NOT NULL COMMENT '唯一标识ID',
   role_id INT NOT NULL COMMENT '角色唯一标识ID',
   permission_id INT NOT NULL COMMENT '权限唯一标识ID',
   description VARCHAR(500) COMMENT '描述',
@@ -79,7 +81,7 @@ CREATE TABLE role_permission (
 
 #create file manager table
 CREATE TABLE file (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '文件资源唯一表示ID',
+  id BIGINT NOT NULL COMMENT '文件资源唯一表示ID',
   role_id INT NOT NULL COMMENT '文件所属者ID',
   origin_name VARCHAR(300) NOT NULL COMMENT '上传文件原始名称',
   new_name VARCHAR(300) NOT NULL COMMENT '新文件名，用于存放在服务端用',
@@ -115,7 +117,7 @@ VALUES (1,'admin','管理员',1),
 INSERT INTO permission(id,name,type,url,permission,parent_id,parent_ids,available,sort)
 VALUES
   (1,'权限管理',1,'','',0,'',1,1),
-  (2,'用户管理',2,'／authority/user/list.html','',1,'1',1,1),
+  (2,'用户管理',2,'/authority/user/list.html','',1,'1',1,1),
   (3,'添加',3,'','sys:admin:add',2,'1,2',1,1),
   (4,'编辑',3,'','sys:admin:edit',2,'1,2',1,2),
   (5,'删除',3,'','sys;admin:del',2,'1,2',1,3),
@@ -144,51 +146,51 @@ VALUES
   (28,'密码修改',2,'/user/changePassword.html','',26,'26',1,2);
 
 #intial user_role table
-INSERT INTO user_role(user_id, role_id, description)
-VALUES (1,1,'admin是超级管理员'),
-  (2,2,'summer是开发人员'),
-  (3,3,'solstice是测试人员'),
-  (4,4,'logger是日志运维人员'),
-  (5,5,'guest是一般用户');
+INSERT INTO user_role(id,user_id, role_id, description)
+VALUES (1,1,1,'admin是超级管理员'),
+  (2,2,2,'summer是开发人员'),
+  (3,3,3,'solstice是测试人员'),
+  (4,4,4,'logger是日志运维人员'),
+  (5,5,5,'guest是一般用户');
 
 #initial role_persmission table
-INSERT INTO role_permission(role_id,permission_id,description)
+INSERT INTO role_permission(id,role_id,permission_id,description)
 VALUES
-  (1,1,'admin权限管理'),
-  (1,2,'admin用户管理'),
-  (1,6,'admin角色管理'),
-  (1,10,'admin权限管理'),
-  (1,14,'admin代码管理'),
-  (1,15,'admin代码管理'),
-  (1,17,'admin系统测试'),
-  (1,18,'admin系统测试报告'),
-  (1,22,'admin日志管理'),
-  (1,23,'admin日志查看'),
-  (1,26,'admin设置管理'),
-  (1,27,'admin用户信息'),
-  (1,28,'admin用户密码修改'),
-  (2,14,'summer开发人员代码管理'),
-  (2,15,'summer开发人员代码生成'),
-  (2,26,'summer开发人员设置管理'),
-  (2,27,'summer开发人员用户信息'),
-  (2,28,'summer开发人员密码修改'),
-  (3,17,'test系统测试'),
-  (3,18,'test系统测试报告'),
-  (3,26,'test测试人员设置管理'),
-  (3,27,'test测试人员信息管理'),
-  (3,28,'test测试人员密码修改'),
-  (4,22,'logger日志管理'),
-  (4,23,'logger日志管理查看'),
-  (4,26,'logger日志管理人员设置管理'),
-  (4,27,'logger日志管理人员信息设置'),
-  (4,28,'logger日志管理人员密码修改');
+  (1,1,1,'admin权限管理'),
+  (2,1,2,'admin用户管理'),
+  (3,1,6,'admin角色管理'),
+  (4,1,10,'admin权限管理'),
+  (5,1,14,'admin代码管理'),
+  (6,1,15,'admin代码管理'),
+  (7,1,17,'admin系统测试'),
+  (8,1,18,'admin系统测试报告'),
+  (9,1,22,'admin日志管理'),
+  (10,1,23,'admin日志查看'),
+  (11,1,26,'admin设置管理'),
+  (12,1,27,'admin用户信息'),
+  (13,1,28,'admin用户密码修改'),
+  (14,2,14,'summer开发人员代码管理'),
+  (15,2,15,'summer开发人员代码生成'),
+  (16,2,26,'summer开发人员设置管理'),
+  (17,2,27,'summer开发人员用户信息'),
+  (18,2,28,'summer开发人员密码修改'),
+  (19,3,17,'test系统测试'),
+  (20,3,18,'test系统测试报告'),
+  (21,3,26,'test测试人员设置管理'),
+  (22,3,27,'test测试人员信息管理'),
+  (23,3,28,'test测试人员密码修改'),
+  (24,4,22,'logger日志管理'),
+  (25,4,23,'logger日志管理查看'),
+  (26,4,26,'logger日志管理人员设置管理'),
+  (27,4,27,'logger日志管理人员信息设置'),
+  (28,4,28,'logger日志管理人员密码修改');
 
 #insert file table datas
 INSERT INTO
   file(id,role_id,origin_name,new_name,extension,type,size,save_path)
 VALUES
-  (null,1,'Java入门到精通.pdf','20180111223155001','pdf','',20000,'/Users/summer/Downloads'),
-  (null,1,'Hadoop入门到精通.pdf','20180111223155002','pdf','',50000,'/Users/summer/Downloads'),
-  (null,1,'Spark入门到精通.pdf','20180111223155003','pdf','',30000,'/Users/summer/Downloads'),
-  (null,1,'Flume入门到精通.pdf','20180111223155004','pdf','',30000,'/Users/summer/Downloads'),
-  (null,1,'Elasticsearch入门到精通.pdf','20180111223155005','pdf','',10000,'/Users/summer/Downloads');
+  (1,1,'Java入门到精通.pdf','20180111223155001','pdf','',20000,'/Users/summer/Downloads'),
+  (2,1,'Hadoop入门到精通.pdf','20180111223155002','pdf','',50000,'/Users/summer/Downloads'),
+  (3,1,'Spark入门到精通.pdf','20180111223155003','pdf','',30000,'/Users/summer/Downloads'),
+  (4,1,'Flume入门到精通.pdf','20180111223155004','pdf','',30000,'/Users/summer/Downloads'),
+  (5,1,'Elasticsearch入门到精通.pdf','20180111223155005','pdf','',10000,'/Users/summer/Downloads');

@@ -37,17 +37,6 @@ public class UserController {
     @Autowired
     private IUserManager userManager;
 
-    @GetMapping("/total.json")
-    public ResultVo queryTotal() {
-        log.info("Controller layer:用户总数统计===>UserController.queryTotal()");
-
-        Long total = userService.queryTotal();
-        if (ObjectUtils.isNotNull(total)) {
-            return ResultVo.success(HttpStatus.STATUS_OK, MapUtils.builder().putVal("total",total));
-        }
-        return ResultVo.fail("暂无用户信息");
-    }
-
     @GetMapping("/query.json/{name}")
     public ResultVo list(@PathVariable("name") String name) {
         log.info("query user info by name===>UserController.list()");
@@ -77,7 +66,12 @@ public class UserController {
 
         List<User> users = userService.queryAllByPagination(pageNum,pageSize);
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(HttpStatus.STATUS_OK,new PageInfo<>(BeanCloneUtils.clone(users,User.class,UserVo.class)));
+            PageInfo<User> pageInfo = new PageInfo<>(users);
+            long total = pageInfo.getTotal();
+            List<UserVo> userVos = BeanCloneUtils.clone(users, User.class, UserVo.class);
+            MapBuilder<String, Object> data = MapUtils.builder();
+            data.putVal("total",total).putVal("userLists",userVos);
+            return ResultVo.success(HttpStatus.STATUS_OK,data);
         }
         return ResultVo.fail("没有查到用户信息");
     }

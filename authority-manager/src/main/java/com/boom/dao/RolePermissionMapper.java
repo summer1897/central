@@ -89,6 +89,6 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param roleIds
      * @return {@link Integer}
      */
-    Integer uncorrelationAllPermissionOfRoles(@Param("roleId") Set<Long> roleIds);
+    Integer uncorrelationAllPermissionOfRoles(@Param("roleIds") Set<Long> roleIds);
 
 }

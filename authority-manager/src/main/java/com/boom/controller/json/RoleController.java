@@ -6,7 +6,10 @@ import com.boom.enums.HttpStatus;
 import com.boom.manager.IRoleManager;
 import com.boom.service.IRoleService;
 import com.boom.service.dto.SimpleRoleDto;
+import com.boom.utils.MapBuilder;
+import com.boom.utils.MapUtils;
 import com.boom.vo.ResultVo;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
@@ -46,13 +49,19 @@ public class RoleController {
         return ResultVo.fail("暂无角色信息");
     }
 
-    @GetMapping(value = "/query_by_name.json/{name}")
-    public ResultVo get(@PathVariable("name") String name) {
-        log.info("Controller layer:根据角色名称查询角色对象===>RoleController.list({})",name);
+    @GetMapping(value = "/query_by_name.json/{name}/{pageNum}/{pageSize}")
+    public ResultVo get(@PathVariable("name") String name,
+                        @PathVariable Integer pageNum,
+                        @PathVariable Integer pageSize) {
+        log.info("Controller layer:根据角色名称查询角色对象===>RoleController.list({},{},{})",name,pageNum,pageSize);
 
+        PageHelper.startPage(pageNum,pageSize);
         List<Role> roles = roleService.queryLikeName(name);
         if (ObjectUtils.isNotEmpty(roles)) {
-            return ResultVo.success(roles);
+            PageInfo<Role> pageInfo = new PageInfo<>(roles);
+            MapBuilder<String, Object> datas = MapUtils.builder();
+            datas.putVal("total",pageInfo.getTotal()).putVal("roleLists",pageInfo.getList());
+            return ResultVo.success(HttpStatus.STATUS_OK,datas);
         }
         return ResultVo.fail("没有查询到角色信息");
     }
@@ -63,12 +72,12 @@ public class RoleController {
 
         List<Role> roles = roleService.queryAll();
         if (ObjectUtils.isNotEmpty(roles)) {
-            return ResultVo.success(roles);
+            return ResultVo.success(HttpStatus.STATUS_OK,roles);
         }
         return ResultVo.fail("没有查询到角色信息");
     }
 
-    @GetMapping(value = "/listsPage.json/{pageNum}/{pageSize}")
+    @GetMapping(value = "/lists_by_page.json/{pageNum}/{pageSize}")
     public ResultVo listsByPagination(@PathVariable("pageNum") Integer pageNum,
                                       @PathVariable("pageSize") Integer pageSize) {
         log.info("Controller layer:分页查询角色对象,pageNum={},pageSize={}===>RoleController.listsByPagination()",pageNum,pageSize);
@@ -76,24 +85,27 @@ public class RoleController {
         List<Role> roles = roleService.queryAllByPagination(pageNum, pageSize);
         if (ObjectUtils.isNotEmpty(roles)) {
             PageInfo<Role> pageInfo = new PageInfo<>(roles);
-            return ResultVo.success(pageInfo);
+            MapBuilder<Object, Object> data = MapUtils.builder()
+                                                      .putVal("roleLists", pageInfo.getList())
+                                                      .putVal("total", pageInfo.getTotal());
+            return ResultVo.success(HttpStatus.STATUS_OK,data);
         }
         return ResultVo.fail("没有查询到角色信息");
     }
 
     @PostMapping("/add.json")
-    public ResultVo add(Role role) {
+    public ResultVo add(@RequestBody Role role) {
         log.info("Controller layer:添加角色===>RoleController.add({})", JSON.toJSONString(role,true));
 
         boolean success = roleService.insert(role);
         if (success) {
-            return ResultVo.success("添加角色成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("添加角色失败");
     }
 
     @PostMapping("/update.json")
-    public ResultVo update(Role role) {
+    public ResultVo update(@RequestBody Role role) {
         log.info("Controller layer:更新角色===>RoleController.update({})", JSON.toJSONString(role,true));
 
         boolean success = roleService.updateById(role);
@@ -114,7 +126,7 @@ public class RoleController {
         return ResultVo.fail("删除角色失败");
     }
 
-    @GetMapping("/deletes.json/{id}")
+    @GetMapping("/delete_batch.json/{ids}")
     public ResultVo deleteBatch(@PathVariable Set<Long> ids) {
         log.info("Controller layer:删除角色===>RoleController.deletes({})", ids);
 

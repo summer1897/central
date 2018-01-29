@@ -21,6 +21,7 @@
             <include refid="base_sql_list"/>
         FROM
             role
+        ORDER BY create_date DESC
     </select>
 
     <select id="queryLikeName" resultMap="baseResultMap">
@@ -30,6 +31,7 @@
             role
         WHERE
             name LIKE concat('%',#{name},'%')
+        ORDER BY create_date DESC
     </select>
     
     <update id="updateSelective">
