@@ -70,6 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
 
     @Override
     public List<User> queryAllByPagination(Integer pageNum, Integer pageSize) {
+        log.info("Service layer=========>UserServiceImpl.queryAllByPagination()");
         PageHelper.startPage(pageNum,pageSize);
         return this.queryAll();
     }
