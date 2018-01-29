@@ -32,7 +32,7 @@
           user
         WHERE
           user_name = #{userName}
-        ORDER BY create_date DESC
+        ORDER BY modify_date DESC
     </select>
 
     <select id="queryLikeUserName" resultMap="BaseResultMap">
@@ -42,7 +42,7 @@
         user
         WHERE
         user_name LIKE concat('%',#{userName},'%')
-        ORDER BY create_date DESC
+        ORDER BY modify_date DESC
     </select>
 
     <select id="queryAll" resultMap="BaseResultMap">
@@ -50,6 +50,6 @@
           <include refid="base_sql_lists"/>
         FROM
           user
-        ORDER BY create_date DESC
+        ORDER BY modify_date DESC
     </select>
 </mapper>

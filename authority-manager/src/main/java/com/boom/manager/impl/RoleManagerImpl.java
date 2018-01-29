@@ -49,7 +49,7 @@ public class RoleManagerImpl implements IRoleManager {
 
         boolean isSuccess = false;
         if (ObjectUtils.isNotNull(id)) {
-            isSuccess = roleService.deleteById(id) &&
+            isSuccess = roleService.deleteById(id) ||
                     rolePermissionService.uncorrelationAllPermissionOfRole(id);
 
         }
@@ -62,7 +62,9 @@ public class RoleManagerImpl implements IRoleManager {
 
         boolean isSuccess = false;
         if (ObjectUtils.isNotEmpty(ids)) {
-            isSuccess = roleService.deleteBatchIds(ids) &&
+            //可能会存在有角色信息，但是没有角色权限关联信息的情况，所有
+            //两个删除操作有可能只进行一种操作
+            isSuccess = roleService.deleteBatchIds(ids) ||
                     rolePermissionService.uncorrelationAllPermissionOfRoles(ids);
 
         }

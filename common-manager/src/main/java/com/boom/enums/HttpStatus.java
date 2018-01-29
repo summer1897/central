@@ -9,7 +9,7 @@ package com.boom.enums;
  */
 public enum HttpStatus {
 
-    STATUS_OK(200,"成功","ok"),
+    STATUS_OK(200,"操作成功","ok"),
     STATUS_400(400,"错误请求","Bad Request"),
     STATUS_401(401,"未授权","Unauthorized"),
     STATUS_403(403,"禁止访问","Forbidden"),

@@ -110,7 +110,7 @@ public class RoleController {
 
         boolean success = roleService.updateById(role);
         if (success) {
-            return ResultVo.success("更新角色成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("更新角色失败");
     }
@@ -121,7 +121,7 @@ public class RoleController {
 
         boolean success = roleManager.delete(id);
         if (success) {
-            return ResultVo.success("删除角色成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("删除角色失败");
     }
@@ -132,7 +132,7 @@ public class RoleController {
 
         boolean success = roleManager.deleteBatch(ids);
         if (success) {
-            return ResultVo.success("删除所选角色成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("删除所选角色失败");
     }
@@ -145,7 +145,7 @@ public class RoleController {
 
         boolean success = roleManager.authorize(roleId,permissionIds);
         if (success) {
-            return ResultVo.success("授权成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("授权失败");
     }
