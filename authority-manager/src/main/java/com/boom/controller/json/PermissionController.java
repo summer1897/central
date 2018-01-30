@@ -1,6 +1,7 @@
 package com.boom.controller.json;
 
 import com.boom.domain.Permission;
+import com.boom.enums.HttpStatus;
 import com.boom.service.IPermissionService;
 import com.boom.utils.TreeNode;
 import com.boom.vo.ResultVo;
@@ -49,7 +50,7 @@ public class PermissionController {
 
         TreeNode treeNode = new TreeNode(permissionService.queryAll());
         if (ObjectUtils.isNotNull(treeNode)) {
-            return ResultVo.success(treeNode.buildTree());
+            return ResultVo.success(HttpStatus.STATUS_OK,treeNode.buildTree());
         }
         return ResultVo.fail("查询树形权限信息失败");
     }
