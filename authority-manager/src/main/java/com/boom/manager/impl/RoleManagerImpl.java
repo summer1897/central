@@ -3,6 +3,7 @@ package com.boom.manager.impl;
 import com.boom.manager.IRoleManager;
 import com.boom.service.IRolePermissionService;
 import com.boom.service.IRoleService;
+import com.google.common.collect.Lists;
 import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -69,5 +71,16 @@ public class RoleManagerImpl implements IRoleManager {
 
         }
         return isSuccess;
+    }
+
+    @Override
+    public List<Long> queryAllRolePermissionId(Long roleId) {
+        log.info("Manager layer=============>RoleManagerImpl.queryAllRolePermissionId()");
+
+        List<Long> permissionIds = Lists.newArrayList();
+        if (ObjectUtils.isNotNull(roleId)) {
+            permissionIds = rolePermissionService.queryPermissionOfRole(roleId);
+        }
+        return permissionIds;
     }
 }

@@ -1,5 +1,6 @@
 package com.boom.manager;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,5 +33,12 @@ public interface IRoleManager {
      * @return {@link boolean}
      */
     boolean deleteBatch(Set<Long> ids);
+
+    /**
+     * 获取角色的所有权限Id
+     * @param roleId
+     * @return {@link List<Long>}
+     */
+    List<Long> queryAllRolePermissionId(Long roleId);
 
 }

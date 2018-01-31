@@ -11,6 +11,7 @@ import com.boom.utils.MapUtils;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.summer.base.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +94,17 @@ public class RoleController {
         return ResultVo.fail("没有查询到角色信息");
     }
 
+    @GetMapping("/permission_ids.json/{roleId}")
+    public ResultVo getAllRolePermissionIds(@PathVariable Long roleId) {
+        log.info("Controller layer:获取角色所有权限Id===>RoleController.getAllRolePermissionIds({})", roleId);
+
+        List<Long> permissionIds = roleManager.queryAllRolePermissionId(roleId);
+        if (ObjectUtils.isNotEmpty(permissionIds)) {
+            return ResultVo.success(HttpStatus.STATUS_OK,permissionIds);
+        }
+        return ResultVo.fail(HttpStatus.STATUS_400);
+    }
+
     @PostMapping("/add.json")
     public ResultVo add(@RequestBody Role role) {
         log.info("Controller layer:添加角色===>RoleController.add({})", JSON.toJSONString(role,true));
@@ -139,7 +151,7 @@ public class RoleController {
 
 
 //    @ApiOperation(notes = "授权",value = "为角色授权")
-    @GetMapping("/authorize.json/{roleId}/{permissionIds}")
+    @GetMapping("/authorization.json/{roleId}/{permissionIds}")
     public ResultVo authorize(@PathVariable Long roleId,@PathVariable Set<Long> permissionIds) {
         log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({},{})", roleId,permissionIds);
 
