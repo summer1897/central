@@ -15,10 +15,11 @@ public interface IRoleManager {
     /**
      * 为角色添加权限
      * @param roleId
-     * @param permissionIds
+     * @param addingPermissionIds 新添加的权限id
+     * @param deletingPermissionIds 待删除的权限id
      * @return {@link boolean}
      */
-    boolean authorize(Long roleId, Set<Long> permissionIds);
+    boolean authorize(Long roleId, Set<Long> addingPermissionIds,Set<Long> deletingPermissionIds);
 
     /**
      *

@@ -34,13 +34,16 @@ public class RoleManagerImpl implements IRoleManager {
 
 
     @Override
-    public boolean authorize(Long roleId, Set<Long> permissionIds) {
+    public boolean authorize(Long roleId, Set<Long> addingPermissionIds,Set<Long> deletingPermissionIds) {
         log.info("Manager layer=============>RoleManagerImpl.authorize()");
 
         boolean isSuccess = false;
-        if (ObjectUtils.isNotNull(roleId) && ObjectUtils.isNotEmpty(permissionIds)) {
-            isSuccess = rolePermissionService.correlation(roleId,permissionIds);
-
+        if (ObjectUtils.isNotNull(roleId) &&
+            (ObjectUtils.isNotEmpty(addingPermissionIds) ||
+            ObjectUtils.isNotEmpty(deletingPermissionIds))) {
+            //为角色添加授权关联，且删除取消掉的权限关联
+            isSuccess = rolePermissionService.correlation(roleId,addingPermissionIds) ||
+                        rolePermissionService.uncorrelation(roleId,deletingPermissionIds);
         }
         return isSuccess;
     }

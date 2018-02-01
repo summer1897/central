@@ -151,11 +151,14 @@ public class RoleController {
 
 
 //    @ApiOperation(notes = "授权",value = "为角色授权")
-    @GetMapping("/authorization.json/{roleId}/{permissionIds}")
-    public ResultVo authorize(@PathVariable Long roleId,@PathVariable Set<Long> permissionIds) {
-        log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({},{})", roleId,permissionIds);
+    @GetMapping("/authorization.json/{roleId}/{addingPids}/{deletingPids}")
+    public ResultVo authorize(@PathVariable Long roleId,
+                              @PathVariable Set<Long> addingPids,
+                              @PathVariable Set<Long> deletingPids) {
+        log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({},{},{})",
+                roleId,addingPids,deletingPids);
 
-        boolean success = roleManager.authorize(roleId,permissionIds);
+        boolean success = roleManager.authorize(roleId,addingPids,deletingPids);
         if (success) {
             return ResultVo.success(HttpStatus.STATUS_OK);
         }

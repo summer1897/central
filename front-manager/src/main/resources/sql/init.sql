@@ -59,9 +59,9 @@ CREATE TABLE permission (
 
 #create user_role table
 CREATE TABLE user_role (
-  id BIGINT NOT NULL COMMENT '唯一标识ID',
-  user_id INT NOT NULL COMMENT '用户唯一标识ID',
-  role_id INT NOT NULL COMMENT '角色唯一标识ID',
+  id BIGINT NOT NULL AUTO_INCREMENT COMMENT '唯一标识ID',
+  user_id BIGINT NOT NULL COMMENT '用户唯一标识ID',
+  role_id BIGINT NOT NULL COMMENT '角色唯一标识ID',
   description VARCHAR(500) COMMENT '描述',
   create_date DATETIME NOT NULL DEFAULT now() COMMENT '创建时间',
   modify_date DATETIME NOT NULL DEFAULT now() ON UPDATE now() COMMENT '更新时间',
@@ -70,9 +70,9 @@ CREATE TABLE user_role (
 
 #create role_permission table
 CREATE TABLE role_permission (
-  id BIGINT NOT NULL COMMENT '唯一标识ID',
-  role_id INT NOT NULL COMMENT '角色唯一标识ID',
-  permission_id INT NOT NULL COMMENT '权限唯一标识ID',
+  id BIGINT NOT NULL AUTO_INCREMENT COMMENT '唯一标识ID',
+  role_id BIGINT NOT NULL COMMENT '角色唯一标识ID',
+  permission_id BIGINT NOT NULL COMMENT '权限唯一标识ID',
   description VARCHAR(500) COMMENT '描述',
   create_date DATETIME NOT NULL DEFAULT now() COMMENT '创建时间',
   modify_date DATETIME NOT NULL DEFAULT now() ON UPDATE now() COMMENT '更新时间',

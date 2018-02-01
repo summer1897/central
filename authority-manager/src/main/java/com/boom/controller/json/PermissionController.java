@@ -7,6 +7,7 @@ import com.boom.utils.TreeNode;
 import com.boom.vo.ResultVo;
 import com.github.pagehelper.PageInfo;
 import com.summer.base.utils.ObjectUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class PermissionController {
         return ResultVo.fail("查询权限信息失败");
     }
 
+//    @RequiresRoles("test")
     @GetMapping(value = "/lists_tree.json")
     public ResultVo getAllTree() {
         log.info("Controller layer:将所有权限信息以树形的形式返回===============>PermissionController.getAllTree()");
