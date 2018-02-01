@@ -34,13 +34,19 @@ public class RoleManagerImpl implements IRoleManager {
 
 
     @Override
-    public boolean authorize(Long roleId, Set<Long> permissionIds) {
+    public boolean authorize(Long roleId, Set<Long> addingPermissionIds,Set<Long> deletingPermissionIds) {
         log.info("Manager layer=============>RoleManagerImpl.authorize()");
 
         boolean isSuccess = false;
-        if (ObjectUtils.isNotNull(roleId) && ObjectUtils.isNotEmpty(permissionIds)) {
-            isSuccess = rolePermissionService.correlation(roleId,permissionIds);
-
+        if (ObjectUtils.isNotNull(roleId)) {
+            boolean flag1 = false,flag2 = false;
+            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+                flag1 = rolePermissionService.correlation(roleId,addingPermissionIds);
+            }
+            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+                flag2 = rolePermissionService.uncorrelation(roleId,deletingPermissionIds);
+            }
+            isSuccess = flag1 || flag2;
         }
         return isSuccess;
     }
