@@ -1,5 +1,8 @@
 package com.boom.controller.vo;
 
+import com.boom.serializer.StringToSet;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -41,6 +44,7 @@ public class RolePermissionVo implements Serializable {
         return addingPermissionIds;
     }
 
+    @JsonDeserialize(using = StringToSet.class)
     public void setAddingPermissionIds(Set<Long> addingPermissionIds) {
         this.addingPermissionIds = addingPermissionIds;
     }
@@ -49,6 +53,7 @@ public class RolePermissionVo implements Serializable {
         return deletingPermissionIds;
     }
 
+    @JsonDeserialize(using = StringToSet.class)
     public void setDeletingPermissionIds(Set<Long> deletingPermissionIds) {
         this.deletingPermissionIds = deletingPermissionIds;
     }

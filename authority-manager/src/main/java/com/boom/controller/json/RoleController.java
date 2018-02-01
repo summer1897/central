@@ -158,10 +158,14 @@ public class RoleController {
         log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({})",
                 JSON.toJSONString(rolePermissionVo,true));
 
-       /* boolean success = roleManager.authorize(roleId,addingPermissionIds,deletingPermissionIds);
-        if (success) {
-            return ResultVo.success(HttpStatus.STATUS_OK);
-        }*/
+        if (ObjectUtils.isNotNull(rolePermissionVo)) {
+            boolean success = roleManager.authorize(rolePermissionVo.getRoleId(),
+                                                    rolePermissionVo.getAddingPermissionIds(),
+                                                    rolePermissionVo.getDeletingPermissionIds());
+            if (success) {
+                return ResultVo.success(HttpStatus.STATUS_OK);
+            }
+        }
         return ResultVo.fail("授权失败");
     }
 

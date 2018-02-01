@@ -47,8 +47,4 @@ public class RandomIdGenerator {
         return Long.toString(random.nextLong()).replaceAll("-","");
     }
 
-    public static void main(String[] args) {
-        System.out.println("uuid: " + geneateUUID());
-        System.out.println("random id: " + generateRandomId());
-    }
 }
