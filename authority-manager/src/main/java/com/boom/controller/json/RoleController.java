@@ -1,6 +1,7 @@
 package com.boom.controller.json;
 
 import com.alibaba.fastjson.JSON;
+import com.boom.controller.vo.RolePermissionVo;
 import com.boom.domain.Role;
 import com.boom.enums.HttpStatus;
 import com.boom.manager.IRoleManager;
@@ -151,17 +152,16 @@ public class RoleController {
 
 
 //    @ApiOperation(notes = "授权",value = "为角色授权")
-    @GetMapping("/authorization.json/{roleId}/{addingPids}/{deletingPids}")
-    public ResultVo authorize(@PathVariable Long roleId,
-                              @PathVariable Set<Long> addingPids,
-                              @PathVariable Set<Long> deletingPids) {
-        log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({},{},{})",
-                roleId,addingPids,deletingPids);
 
-        boolean success = roleManager.authorize(roleId,addingPids,deletingPids);
+    @PostMapping(value = "/authorization.json",produces = "application/json")
+    public ResultVo authorize(@RequestBody RolePermissionVo rolePermissionVo) {
+        log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({})",
+                JSON.toJSONString(rolePermissionVo,true));
+
+       /* boolean success = roleManager.authorize(roleId,addingPermissionIds,deletingPermissionIds);
         if (success) {
             return ResultVo.success(HttpStatus.STATUS_OK);
-        }
+        }*/
         return ResultVo.fail("授权失败");
     }
 

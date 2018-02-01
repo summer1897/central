@@ -38,12 +38,15 @@ public class RoleManagerImpl implements IRoleManager {
         log.info("Manager layer=============>RoleManagerImpl.authorize()");
 
         boolean isSuccess = false;
-        if (ObjectUtils.isNotNull(roleId) &&
-            (ObjectUtils.isNotEmpty(addingPermissionIds) ||
-            ObjectUtils.isNotEmpty(deletingPermissionIds))) {
-            //为角色添加授权关联，且删除取消掉的权限关联
-            isSuccess = rolePermissionService.correlation(roleId,addingPermissionIds) ||
-                        rolePermissionService.uncorrelation(roleId,deletingPermissionIds);
+        if (ObjectUtils.isNotNull(roleId)) {
+            boolean flag1 = false,flag2 = false;
+            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+                flag1 = rolePermissionService.correlation(roleId,addingPermissionIds);
+            }
+            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+                flag2 = rolePermissionService.uncorrelation(roleId,deletingPermissionIds);
+            }
+            isSuccess = flag1 || flag2;
         }
         return isSuccess;
     }
