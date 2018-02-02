@@ -30,11 +30,25 @@ public interface IUserService extends IService<User> {
     List<User> queryLikeUserName(@Param("userName") String userName);
 
     /**
-     * 根据用户名才找用户
+     * 根据用户名查找用户
      * @param userName
      * @return {@link User},否则，返回null
      */
     User queryByName(String userName);
+
+    /**
+     * 根据用户邮箱查找用户
+     * @param email
+     * @return {@link User},否则，返回null
+     */
+    User queryByEmail(String email);
+
+    /**
+     * 根据用户手机号查找用户
+     * @param phone
+     * @return {@link User},否则，返回null
+     */
+    User queryByPhone(String phone);
 
     /**
      * 查询所有用户

@@ -88,6 +88,30 @@ public class UserController {
         return ResultVo.fail("没有查到用户信息");
     }
 
+    @GetMapping("/email.json/{email}")
+    public ResultVo getByEmail(@PathVariable String email) {
+        log.info("Controller layer:根据用户邮箱查询用户信息===>UserController.getByEmail({})",email);
+
+        User user = userService.queryByEmail(email);
+        if (ObjectUtils.isNotNull(user)) {
+            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(user,User.class,UserVo.class));
+        }
+
+        return ResultVo.fail("没有查到用户信息");
+    }
+
+    @GetMapping("/phone.json/{phone}")
+    public ResultVo getByPhone(@PathVariable String phone) {
+        log.info("Controller layer:根据用户邮箱查询用户信息===>UserController.getByPhone({})",phone);
+
+        User user = userService.queryByPhone(phone);
+        if (ObjectUtils.isNotNull(user)) {
+            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(user,User.class,UserVo.class));
+        }
+
+        return ResultVo.fail("没有查到用户信息");
+    }
+
     @GetMapping("/query_like_username.json/{userName}/{pageNum}/{pageSize}")
     public ResultVo getLikeUserName(@PathVariable String userName,
                                     @PathVariable Integer pageNum,
@@ -150,7 +174,7 @@ public class UserController {
 
         boolean success = userService.deleteBatchIds(ids);
         if (success) {
-            return ResultVo.success("删除所选用户成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("删除所选用户失败");
     }
@@ -165,7 +189,7 @@ public class UserController {
         }
         boolean success = userService.updateById(user);
         if (success) {
-            return ResultVo.success("更新用户成功");
+            return ResultVo.success(HttpStatus.STATUS_OK);
         }
         return ResultVo.fail("更新用户失败");
     }

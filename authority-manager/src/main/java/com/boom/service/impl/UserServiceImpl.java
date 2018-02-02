@@ -1,5 +1,6 @@
 package com.boom.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.boom.controller.vo.UserVo;
 import com.boom.dao.UserMapper;
@@ -57,6 +58,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User>
         User user = null;
         if (StringUtils.isNotEmpty(userName)) {
             user = userMapper.queryByName(userName);
+        }
+        return user;
+    }
+
+    @Override
+    public User queryByEmail(String email) {
+        log.info("Service layer========================>UserServiceImpl.queryByEmail()");
+
+        User user = null;
+        if (StringUtils.isNotEmpty(email)) {
+            EntityWrapper<User> condition = new EntityWrapper<>();
+            condition.eq("email",email);
+            user = selectOne(condition);
+        }
+        return user;
+    }
+
+    @Override
+    public User queryByPhone(String phone) {
+        log.info("Service layer========================>UserServiceImpl.queryByEmail()");
+
+        User user = null;
+        if (StringUtils.isNotEmpty(phone)) {
+            EntityWrapper<User> condition = new EntityWrapper<>();
+            condition.eq("phone",phone);
+            user = selectOne(condition);
         }
         return user;
     }
