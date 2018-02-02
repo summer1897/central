@@ -1,6 +1,6 @@
 package com.boom.controller.vo;
 
-import com.boom.serializer.StringToSet;
+import com.boom.serializer.StringToLongSet;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
@@ -18,9 +18,17 @@ import java.util.Set;
 public class RolePermissionVo implements Serializable {
     private static final long serialVersionUID = 6763674877819859322L;
 
+    /**
+     * 角色Id
+     */
     private Long roleId;
-
+    /**
+     * 新添加的权限Id
+     */
     private Set<Long> addingPermissionIds;
+    /**
+     * 待删除的权限Id
+     */
     private Set<Long> deletingPermissionIds;
 
     public RolePermissionVo() {
@@ -44,7 +52,7 @@ public class RolePermissionVo implements Serializable {
         return addingPermissionIds;
     }
 
-    @JsonDeserialize(using = StringToSet.class)
+    @JsonDeserialize(using = StringToLongSet.class)
     public void setAddingPermissionIds(Set<Long> addingPermissionIds) {
         this.addingPermissionIds = addingPermissionIds;
     }
@@ -53,7 +61,7 @@ public class RolePermissionVo implements Serializable {
         return deletingPermissionIds;
     }
 
-    @JsonDeserialize(using = StringToSet.class)
+    @JsonDeserialize(using = StringToLongSet.class)
     public void setDeletingPermissionIds(Set<Long> deletingPermissionIds) {
         this.deletingPermissionIds = deletingPermissionIds;
     }

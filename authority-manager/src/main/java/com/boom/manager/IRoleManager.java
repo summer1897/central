@@ -1,5 +1,7 @@
 package com.boom.manager;
 
+import com.boom.controller.vo.RolePermissionVo;
+
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +16,10 @@ public interface IRoleManager {
 
     /**
      * 为角色添加权限
-     * @param roleId
-     * @param addingPermissionIds 新添加的权限id
-     * @param deletingPermissionIds 待删除的权限id
+     * @param rolePermissionVo
      * @return {@link boolean}
      */
-    boolean authorize(Long roleId, Set<Long> addingPermissionIds,Set<Long> deletingPermissionIds);
+    boolean authorize(RolePermissionVo rolePermissionVo);
 
     /**
      *

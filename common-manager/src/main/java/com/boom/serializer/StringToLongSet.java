@@ -18,7 +18,7 @@ import java.util.Set;
  * @Date 2018/2/1 下午10:52
  * @Description
  */
-public class StringToSet extends JsonDeserializer<Set<Long>> {
+public class StringToLongSet extends JsonDeserializer<Set<Long>> {
     @Override
     public Set<Long> deserialize(JsonParser jsonParser,
                                  DeserializationContext deserializationContext) throws IOException, JsonProcessingException {

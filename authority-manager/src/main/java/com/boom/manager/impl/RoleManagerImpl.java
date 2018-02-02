@@ -1,5 +1,6 @@
 package com.boom.manager.impl;
 
+import com.boom.controller.vo.RolePermissionVo;
 import com.boom.manager.IRoleManager;
 import com.boom.service.IRolePermissionService;
 import com.boom.service.IRoleService;
@@ -34,18 +35,23 @@ public class RoleManagerImpl implements IRoleManager {
 
 
     @Override
-    public boolean authorize(Long roleId, Set<Long> addingPermissionIds,Set<Long> deletingPermissionIds) {
+    public boolean authorize(RolePermissionVo rolePermissionVo) {
         log.info("Manager layer=============>RoleManagerImpl.authorize()");
 
         boolean isSuccess = false;
-        if (ObjectUtils.isNotNull(roleId)) {
+        if (ObjectUtils.isNotNull(rolePermissionVo)) {
             boolean flag1 = false,flag2 = false;
-            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+            Long roleId = rolePermissionVo.getRoleId();
+            Set<Long> addingPermissionIds = rolePermissionVo.getAddingPermissionIds();
+            Set<Long> deletingPermissionIds = rolePermissionVo.getDeletingPermissionIds();
+
+            if (ObjectUtils.isNotNull(roleId) && ObjectUtils.isNotEmpty(addingPermissionIds)) {
                 flag1 = rolePermissionService.correlation(roleId,addingPermissionIds);
             }
-            if (ObjectUtils.isNotEmpty(addingPermissionIds)) {
+            if (ObjectUtils.isNotNull(roleId) && ObjectUtils.isNotEmpty(deletingPermissionIds)) {
                 flag2 = rolePermissionService.uncorrelation(roleId,deletingPermissionIds);
             }
+
             isSuccess = flag1 || flag2;
         }
         return isSuccess;

@@ -152,16 +152,13 @@ public class RoleController {
 
 
 //    @ApiOperation(notes = "授权",value = "为角色授权")
-
     @PostMapping(value = "/authorization.json",produces = "application/json")
     public ResultVo authorize(@RequestBody RolePermissionVo rolePermissionVo) {
         log.info("Controller layer:Controller layer:为角色授权===>RoleController.deletes({})",
                 JSON.toJSONString(rolePermissionVo,true));
 
         if (ObjectUtils.isNotNull(rolePermissionVo)) {
-            boolean success = roleManager.authorize(rolePermissionVo.getRoleId(),
-                                                    rolePermissionVo.getAddingPermissionIds(),
-                                                    rolePermissionVo.getDeletingPermissionIds());
+            boolean success = roleManager.authorize(rolePermissionVo);
             if (success) {
                 return ResultVo.success(HttpStatus.STATUS_OK);
             }
