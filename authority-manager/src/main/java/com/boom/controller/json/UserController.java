@@ -15,6 +15,7 @@ import com.boom.utils.MapBuilder;
 import com.boom.utils.MapUtils;
 import com.boom.utils.RandomIdGenerator;
 import com.boom.vo.ResultVo;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.summer.base.utils.BeanCloneUtils;
 import com.summer.base.utils.ObjectUtils;
@@ -87,13 +88,23 @@ public class UserController {
         return ResultVo.fail("没有查到用户信息");
     }
 
-    @GetMapping("/query_like_username.json/{userName}")
-    public ResultVo getLikeUserName(@PathVariable String userName) {
-        log.info("Controller layer:根据用户名模糊查询用户信息===>UserController.getLikeUserName({})",userName);
+    @GetMapping("/query_like_username.json/{userName}/{pageNum}/{pageSize}")
+    public ResultVo getLikeUserName(@PathVariable String userName,
+                                    @PathVariable Integer pageNum,
+                                    @PathVariable Integer pageSize) {
+        log.info("Controller layer:根据用户名模糊查询用户信息===>UserController.getLikeUserName({},{},{})",
+                userName,pageNum,pageSize);
 
+        PageHelper.startPage(pageNum,pageSize);
         List<User> users = userService.queryLikeUserName(userName);
         if (ObjectUtils.isNotEmpty(users)) {
-            return ResultVo.success(HttpStatus.STATUS_OK,BeanCloneUtils.clone(users,User.class,UserVo.class));
+            PageInfo<User> pageInfo = new PageInfo<>(users);
+            List<UserVo> userVos = BeanCloneUtils.clone(pageInfo.getList(), User.class, UserVo.class);
+
+            MapBuilder<String, Object> datas = MapUtils.builder();
+            datas.putVal("total",pageInfo.getTotal()).putVal("userLists",userVos);
+
+            return ResultVo.success(HttpStatus.STATUS_OK,datas);
         }
         return ResultVo.fail("没有查到用户信息");
     }
